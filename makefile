@@ -5,7 +5,7 @@
 help:
 	@echo ""
 	@echo "    all"
-	@echo "        install, test, clean."
+	@echo "        lint, install, test, clean."
 	@echo ""
 	@echo "    install"
 	@echo "        Rebuild and install the project."
@@ -26,21 +26,22 @@ help:
 	@echo "        Uninstalls quizmake."
 	@echo ""
 
-all: install test clean
+all: lint install test clean
+
+lint:
+	flake8
 
 install:
 	sudo pip3 install .
 
 test:
 	pytest
+#	pytest --maxfail=2
 
 clean:
 	- rm -rf build/ dist/ *.egg-info
 	- find . -name "__pycache__" -type d -exec rm -r "{}" \;
 	- find . -name "*.pyc" -type f -exec rm -r "{}" \;
-
-lint:
-	flake8
 
 publish:
 	sudo python3 setup.py sdist
