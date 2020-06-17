@@ -6,29 +6,43 @@ TESTDIR = tests/
 
 help:
 	@echo ""
+	@echo "======================== Main Recipes ============================="
+	@echo ""
 	@echo "    default"
-	@echo "        lint, install, test, clean."
+	@echo "        installs, tests, uninstalls"
 	@echo ""
 	@echo "    install"
-	@echo "        Rebuild and install the project."
+	@echo "        installs quizmake"
 	@echo ""
 	@echo "    test"
-	@echo "        Tests the project."
-	@echo ""
-	@echo "    clean"
-	@echo "        Cleans up build, dist, and other misc. stuff."
-	@echo ""
-	@echo "    lint"
-	@echo "        runs flake8"
-	@echo ""
-	@echo "    publish"
-	@echo "        Publishes it on PyPi."
+	@echo "        lints, organizes imports, checks black, and runs tests"
 	@echo ""
 	@echo "    uninstall"
-	@echo "        Uninstalls quizmake."
+	@echo "        uninstalls quizmake."
+	@echo ""
+	@echo "======================== Dev. Recipes ============================="
+	@echo ""
+	@echo "    piptest"
+	@echo "        runs the above tests in a pipenv virtual environment"
+	@echo ""
+	@echo "    push"
+	@echo "        pushes current progress to GitHub"
+	@echo ""
+	@echo "    publish"
+	@echo "        uploads current build to PyPi using twine"
+	@echo ""
+	@echo "    clean"
+	@echo "        cleans up all extraneous files/folders"
+	@echo ""
+	@echo "==================================================================="
 	@echo ""
 
 # Main stuff
+
+default: install test uninstall
+
+install:
+	sudo pip3 install .
 
 test:
 	flake8
@@ -36,9 +50,6 @@ test:
 	black --check .
 	mypy
 	pytest $(TESTDIR)
-
-install:
-	sudo pip3 install .
 
 uninstall:
 	- yes | sudo python3 -m pip uninstall quizmake
@@ -48,6 +59,7 @@ uninstall:
 piptest:
 	pipenv install --dev --deploy
 	pipenv run pytest
+	pipenv --rm
 
 push:
 	git add *
