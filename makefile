@@ -50,8 +50,8 @@ piptest:
 	pipenv run pytest
 
 push:
-	git status
 	git add *
+	git status
 	git commit -a
 	git push
 
