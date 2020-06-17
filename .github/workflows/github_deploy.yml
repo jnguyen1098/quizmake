@@ -26,10 +26,38 @@ jobs:
         python -m pip install --upgrade pip
         pipenv install --deploy --dev
     
-    - name: Housekeeping
+    - name: Sort imports 
       run: |
         pipenv run isort --recursive --diff
+    
+    - name: Check code style
+      run: |
         pipenv run black --check .
+
+    - name: Lint code
+      run: |
         pipenv run flake8 . --count --show-source --statistics
+    
+    - name: Static type checking
+      run: |
         pipenv run mypy
-        pipenv run pytest tests/
+    
+    - name: Smoke tests
+      run: |
+        pipenv run pytest tests/smoke_tests/
+        
+    - name: End-to-End tests
+      run: |
+        pipenv run pytest tests/end_to_end_tests/
+
+    - name: Integration tests
+      run: |
+        pipenv run pytest tests/integration_tests/
+
+    - name: Regression tests
+      run: |
+        pipenv run pytest tests/regression_tests/
+    
+    - name: Unit tests
+      run: |
+        pipenv run pytest tests/unit_tests/
