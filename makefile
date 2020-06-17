@@ -8,14 +8,17 @@ help:
 	@echo ""
 	@echo "======================== Main Recipes ============================="
 	@echo ""
-	@echo "    default"
+	@echo "    all"
 	@echo "        installs, tests, uninstalls"
 	@echo ""
+	@echo "    lint"
+	@echo "        lints the code"
+	@echo ""
 	@echo "    install"
-	@echo "        installs quizmake"
+	@echo "        builds and installs quizmake"
 	@echo ""
 	@echo "    test"
-	@echo "        lints, organizes imports, checks black, and runs tests"
+	@echo "        runs all tests"
 	@echo ""
 	@echo "    uninstall"
 	@echo "        uninstalls quizmake."
@@ -39,17 +42,23 @@ help:
 
 # Main stuff
 
-default: install test uninstall
+all: lint install test uninstall
+
+lint:
+	flake8
+	isort --recursive --diff
+	black --check .
+	mypy
 
 install:
 	sudo pip3 install .
 
 test:
-	flake8
-	isort --recursive --diff
-	black --check .
-	mypy
-	pytest $(TESTDIR)
+	pytest $(TESTDIR)/smoke_tests/
+	pytest $(TESTDIR)/end_to_end_tests/
+	pytest $(TESTDIR)/regression_tests/
+	pytest $(TESTDIR)/integration_tests/
+	pytest $(TESTDIR)/unit_tests/
 
 uninstall:
 	- yes | sudo python3 -m pip uninstall quizmake
@@ -58,7 +67,11 @@ uninstall:
 
 piptest:
 	pipenv install --dev --deploy
-	pipenv run pytest
+	pipenv run pytest $(TESTDIR)/smoke_tests/
+	pipenv run pytest $(TESTDIR)/end_to_end_tests/
+	pipenv run pytest $(TESTDIR)/regression_tests/
+	pipenv run pytest $(TESTDIR)/integration_tests/
+	pipenv run pytest $(TESTDIR)/unit_tests/
 	pipenv --rm
 
 push:
