@@ -29,8 +29,7 @@ help:
 all: install test clean
 
 install:
-	sudo python3 setup.py build
-	sudo python3 setup.py install
+	sudo pip3 install .
 
 test:
 	pytest
@@ -49,4 +48,4 @@ publish:
 	twine upload dist/*
 
 uninstall:
-	sudo python3 pip3 uninstall quizmake
+	- yes | sudo python3 -m pip uninstall quizmake
