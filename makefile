@@ -1,5 +1,7 @@
 # Makefile of doom
 
+TESTDIR = tests/
+
 .PHONY: refresh test clean
 
 help:
@@ -35,8 +37,8 @@ install:
 	sudo pip3 install .
 
 test:
-	pytest
-#	pytest --maxfail=2
+	pytest $(TESTDIR)
+#	pytest $(TESTDIR) --maxfail=2
 
 clean:
 	- rm -rf build/ dist/ *.egg-info
