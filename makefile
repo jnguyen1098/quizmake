@@ -6,7 +6,7 @@ TESTDIR = tests/
 
 help:
 	@echo ""
-	@echo "    all"
+	@echo "    default"
 	@echo "        lint, install, test, clean."
 	@echo ""
 	@echo "    install"
@@ -28,27 +28,36 @@ help:
 	@echo "        Uninstalls quizmake."
 	@echo ""
 
-all: lint install test clean
+# Main stuff
 
-lint:
+test:
 	flake8
+	isort --recursive --diff
+	black --check .
+	mypy
+	pytest $(TESTDIR)
 
 install:
 	sudo pip3 install .
 
-test:
-	pytest $(TESTDIR)
-#	pytest $(TESTDIR) --maxfail=2
+uninstall:
+	- yes | sudo python3 -m pip uninstall quizmake
 
-clean:
-	- rm -rf build/ dist/ *.egg-info
-	- find . -name "__pycache__" -type d -exec rm -r "{}" \;
-	- find . -name "*.pyc" -type f -exec rm -r "{}" \;
+# External Stuff
+
+piptest:
+	pipenv install --dev --deploy
+	pipenv run pytest
 
 publish:
 	sudo python3 setup.py sdist
 	sudo python3 setup.py bdist_wheel
 	twine upload dist/*
 
-uninstall:
-	- yes | sudo python3 -m pip uninstall quizmake
+# Housekeeping
+
+clean:
+	- rm -rf build/ dist/ *.egg-info
+	- find . -name "__pycache__" -type d -exec rm -r "{}" \;
+	- find . -name "*.pyc" -type f -exec rm -r "{}" \;
+
