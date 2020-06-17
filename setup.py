@@ -13,7 +13,7 @@ setuptools.setup(
     version="0.0.1",
     author="Jason Nguyen",
     author_email="jnguye21@uoguelph.ca",
-    description="Question generator for D2L and Moodle",
+    description="Question generator package for D2L and Moodle",
     license=license,
     long_description=long_description,
     long_description_content_type="text/x-rst",

@@ -49,6 +49,12 @@ piptest:
 	pipenv install --dev --deploy
 	pipenv run pytest
 
+push:
+	git status
+	git add *
+	git commit -a
+	git push
+
 publish:
 	sudo python3 setup.py sdist
 	sudo python3 setup.py bdist_wheel
