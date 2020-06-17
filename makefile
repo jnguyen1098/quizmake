@@ -16,8 +16,8 @@ help:
 	@echo "    clean"
 	@echo "        Cleans up build, dist, and other misc. stuff."
 	@echo ""
-	@echo "    dist"
-	@echo "        Gets ready for PyPi upload."
+	@echo "    publish"
+	@echo "        Publishes it on PyPi."
 	@echo ""
 
 all: refresh test clean
@@ -34,6 +34,7 @@ clean:
 	- find . -type d -name "__pycache__" -exec rm -rf {} \;
 	- find . -type f -name "*.pyc" -exec rm {} \;
 
-dist:
+publish:
 	sudo python3 setup.py sdist
 	sudo python3 setup.py bdist_wheel
+	twine upload dist/*
