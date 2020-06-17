@@ -5,9 +5,9 @@
 help:
 	@echo ""
 	@echo "    all"
-	@echo "        refresh, test, clean."
+	@echo "        install, test, clean."
 	@echo ""
-	@echo "    refresh"
+	@echo "    install"
 	@echo "        Rebuild and install the project."
 	@echo ""
 	@echo "    test"
@@ -16,25 +16,37 @@ help:
 	@echo "    clean"
 	@echo "        Cleans up build, dist, and other misc. stuff."
 	@echo ""
+	@echo "    lint"
+	@echo "        runs flake8"
+	@echo ""
 	@echo "    publish"
 	@echo "        Publishes it on PyPi."
 	@echo ""
+	@echo "    uninstall"
+	@echo "        Uninstalls quizmake."
+	@echo ""
 
-all: refresh test clean
+all: install test clean
 
-refresh:
+install:
 	sudo python3 setup.py build
 	sudo python3 setup.py install
 
 test:
-	python3 tests/test.py
+	pytest
 
 clean:
 	- rm -rf build/ dist/ *.egg-info
-	- find . -type d -name "__pycache__" -exec rm -rf {} \;
-	- find . -type f -name "*.pyc" -exec rm {} \;
+	- find . -name "__pycache__" -type d -exec rm -r "{}" \;
+	- find . -name "*.pyc" -type f -exec rm -r "{}" \;
+
+lint:
+	flake8
 
 publish:
 	sudo python3 setup.py sdist
 	sudo python3 setup.py bdist_wheel
 	twine upload dist/*
+
+uninstall:
+	sudo python3 pip3 uninstall quizmake
