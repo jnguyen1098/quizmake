@@ -10,7 +10,7 @@ with open("LICENSE") as fd:
 
 setuptools.setup(
     name="quizmake",
-    version="0.0.1",
+    version="0.0.2",
     author="Jason Nguyen",
     author_email="jnguye21@uoguelph.ca",
     description="Question generator package for D2L and Moodle",
