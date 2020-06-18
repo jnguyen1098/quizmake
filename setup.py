@@ -14,6 +14,7 @@ setuptools.setup(
     author="Jason Nguyen",
     author_email="jnguye21@uoguelph.ca",
     description="Question generator package for D2L and Moodle",
+    install_requires=['wheel'],
     license=license,
     long_description=long_description,
     long_description_content_type="text/x-rst",
