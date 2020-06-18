@@ -24,13 +24,13 @@ help:
 	@echo ""
 	@echo "======================== Dev. Recipes ============================="
 	@echo ""
-	@echo "    piptest"
+	@echo "    piptest (clean)"
 	@echo "        runs the above tests in a pipenv virtual environment"
 	@echo ""
-	@echo "    push"
+	@echo "    push (lint, clean)"
 	@echo "        pushes current progress to GitHub"
 	@echo ""
-	@echo "    publish"
+	@echo "    publish (clean)"
 	@echo "        uploads current build to PyPi using twine"
 	@echo ""
 	@echo "    clean"
@@ -73,13 +73,13 @@ uninstall:
 # External Stuff
 
 piptest: clean
-	pipenv install --dev --deploy
+	pipenv install
 	pipenv run pytest $(TESTDIR)/smoke_tests/ $(TESTDIR)/end_to_end_tests \
                       $(TESTDIR)/regression_tests/ $(TESTDIR)/integration_tests/ \
                       $(TESTDIR)/unit_tests/
 	pipenv --rm
 
-push: clean
+push: lint clean
 	git add .
 	git status
 	git commit -a

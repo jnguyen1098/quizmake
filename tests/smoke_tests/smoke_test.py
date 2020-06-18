@@ -1,3 +1,9 @@
+"""
+Smoke test cases
+
+Testing to see if the system works
+"""
+
 from quizmake import corpus
 
 
