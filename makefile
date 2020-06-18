@@ -62,20 +62,21 @@ uninstall:
 
 # External Stuff
 
-piptest:
+piptest: clean
 	pipenv install --dev --deploy
 	pipenv run pytest $(TESTDIR)/smoke_tests/ $(TESTDIR)/end_to_end_tests \
                       $(TESTDIR)/regression_tests/ $(TESTDIR)/integration_tests/ \
                       $(TESTDIR)/unit_tests/
 	pipenv --rm
 
-push:
+push: clean
 	git add .
 	git status
 	git commit -a
 	git push
 
-publish:
+publish: clean
+	vim setup.py
 	sudo python3 setup.py sdist
 	sudo python3 setup.py bdist_wheel
 	twine upload dist/*
