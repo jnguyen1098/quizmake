@@ -75,7 +75,7 @@ piptest:
 	pipenv --rm
 
 push:
-	git add *
+	git add .
 	git status
 	git commit -a
 	git push
