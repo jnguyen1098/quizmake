@@ -1,5 +1,4 @@
-# Makefile of doom
-
+SHELL := /bin/bash
 TESTDIR = tests/
 
 .PHONY: refresh test clean
@@ -87,4 +86,3 @@ clean:
 	- rm -rf build/ dist/ *.egg-info
 	- find . -name "__pycache__" -type d -exec rm -r "{}" \;
 	- find . -name "*.pyc" -type f -exec rm -r "{}" \;
-
