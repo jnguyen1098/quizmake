@@ -52,10 +52,11 @@ help:
 all: lint install test uninstall
 
 lint:
-	flake8
 	isort --recursive --diff
-	black --diff --check .
 	mypy
+	black --diff --check .
+	flake8
+	pylint quizmake
 
 install:
 	pip3 install --editable .
