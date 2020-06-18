@@ -9,7 +9,7 @@ help:
 	@echo "======================== Main Recipes ============================="
 	@echo ""
 	@echo "    all"
-	@echo "        installs, tests, uninstalls"
+	@echo "        lints, installs, tests, uninstalls"
 	@echo ""
 	@echo "    lint"
 	@echo "        lints the code"
@@ -54,11 +54,9 @@ install:
 	sudo pip3 install .
 
 test:
-	pytest $(TESTDIR)/smoke_tests/
-	pytest $(TESTDIR)/end_to_end_tests/
-	pytest $(TESTDIR)/regression_tests/
-	pytest $(TESTDIR)/integration_tests/
-	pytest $(TESTDIR)/unit_tests/
+	pytest $(TESTDIR)/smoke_tests/ $(TESTDIR)/end_to_end_tests \
+           $(TESTDIR)/regression_tests/ $(TESTDIR)/integration_tests/ \
+           $(TESTDIR)/unit_tests/
 
 uninstall:
 	- yes | sudo python3 -m pip uninstall quizmake
@@ -67,11 +65,9 @@ uninstall:
 
 piptest:
 	pipenv install --dev --deploy
-	pipenv run pytest $(TESTDIR)/smoke_tests/
-	pipenv run pytest $(TESTDIR)/end_to_end_tests/
-	pipenv run pytest $(TESTDIR)/regression_tests/
-	pipenv run pytest $(TESTDIR)/integration_tests/
-	pipenv run pytest $(TESTDIR)/unit_tests/
+	pipenv run pytest $(TESTDIR)/smoke_tests/ $(TESTDIR)/end_to_end_tests \
+                      $(TESTDIR)/regression_tests/ $(TESTDIR)/integration_tests/ \
+                      $(TESTDIR)/unit_tests/
 	pipenv --rm
 
 push:
