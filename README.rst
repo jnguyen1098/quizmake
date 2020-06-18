@@ -106,3 +106,21 @@ Also a test
 ::
 
 >>> Test
+
+
+* What your project does
+
+* How to install it
+
+* Example usage
+
+* How to set up the dev. environment
+
+* How to ship a change
+
+* Changelog
+
+* License info
+
+
+raw.githubusercontent.com/dbader/readme-template/master/README.md
