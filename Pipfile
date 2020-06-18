@@ -9,6 +9,7 @@ mypy = "*"
 flake8 = "*"
 pytest = "*"
 black = "*"
+pylint = "*"
 
 [packages]
 quizmake = {path = "."}
