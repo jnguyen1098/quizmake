@@ -45,7 +45,7 @@ jobs:
     - name: Check code using pylint
       run: |
         pylint quizmake
-        pylint tests
+        pylint tests/*/*.py
 
     - name: Smoke tests
       run: |

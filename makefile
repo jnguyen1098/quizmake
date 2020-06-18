@@ -57,6 +57,7 @@ lint:
 	black --diff --check .
 	flake8
 	pylint quizmake
+	pylint tests/*/*.py
 
 install:
 	pip3 install --editable .
