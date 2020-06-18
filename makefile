@@ -41,24 +41,32 @@ help:
 
 # Main stuff
 
+# Level 1: -e testing
+# Level 2: make all
+# Level 3: formal pip install
+# Level 4: venv?
+# Level 5: pipenv?
+# Level 6: git push into github actions
+# Level 7: push to pypi
+
 all: lint install test uninstall
 
 lint:
 	flake8
 	isort --recursive --diff
-	black --check .
+	black --diff --check .
 	mypy
 
 install:
-	sudo pip3 install .
+	pip3 install --editable .
 
 test:
-	pytest $(TESTDIR)/smoke_tests/ $(TESTDIR)/end_to_end_tests \
+	- pytest $(TESTDIR)/smoke_tests/ $(TESTDIR)/end_to_end_tests \
            $(TESTDIR)/regression_tests/ $(TESTDIR)/integration_tests/ \
            $(TESTDIR)/unit_tests/
 
 uninstall:
-	- yes | sudo python3 -m pip uninstall quizmake
+	- yes | pip3 uninstall quizmake
 
 # External Stuff
 

@@ -1,2 +1,2 @@
-def return_string():
-    return "string"
+def add_two_numbers(x: int, y: int) -> int:
+    return x + y
