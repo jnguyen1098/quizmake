@@ -1,6 +1,11 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""Setup module for setuputils-esque tools that support it.
+
+I don't really know how these work.
+"""
+
 import setuptools
 
 with open("README.rst", "r") as fd:

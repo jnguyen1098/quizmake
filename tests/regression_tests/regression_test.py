@@ -1,7 +1,7 @@
 # !/usr/bin/env python3
 
 """
-Regression test cases
+Execute regression test cases.
 
 Tests to make sure the project doesn't reinstroduce any bugs
 """
@@ -10,22 +10,16 @@ from quizmake import quizmake
 
 
 def test_regression_1() -> None:
-    """
-    Placeholder
-    """
+    """Execute placeholder test."""
     assert quizmake.return_string() == "string"
 
 
 def test_regression_2() -> None:
-    """
-    Placeholder
-    """
+    """Execute placeholder tests."""
     assert quizmake.return_string() == "string"
 
 
 def test_regression_3() -> None:
-    """
-    Placeholder
-    """
+    """Execute placeholder tests."""
     number: str = "10"
     assert number == "10"

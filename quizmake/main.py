@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-Main function for executing the package
+Main function for executing the package.
+
 This is the main program logic for when you run::
 >>> python3 -m quizmake
 """
@@ -12,7 +13,7 @@ from typing import List
 
 def main(argv: List[str]) -> int:
     """
-    Main function call
+    Call the main function.
 
     :param argv: The sys.argv list of command-line args
     :type argv: List[str]

@@ -1,9 +1,7 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-Initiation time
-"""
+"""Initiate the file."""
 __all__ = ["Corpus", "corn"]
 __author__ = "Jason Nguyen"
 __copyright__ = "Copyright 2020, Jason Nguyen"

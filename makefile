@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 TESTDIR = tests/
 
-.PHONY: run install test uninstall lint clean piptest push publish
+.PHONY: all install test uninstall lint clean piptest prepush push publish
 
 help:
 	@echo -e ""
@@ -14,7 +14,7 @@ help:
 	@echo -e "              uninstalls existing copies, then installs"
 	@echo -e ""
 	@echo -e "          \e[7mlint\e[0m"
-	@echo -e "              checks code with isort, mypy, black, flake8, pylint"
+	@echo -e "              isort, mypy, black, flake8, pylint, pydocstyle"
 	@echo -e ""
 	@echo -e "          \e[7mtest\e[0m"
 	@echo -e "              smoke, end-to-end, regression, integration, unit"
@@ -74,6 +74,7 @@ lint:
 	flake8 --count --show-source --statistics
 	pylint quizmake
 	pylint tests/*/*.py
+	pydocstyle -e -s --count
 
 clean:
 	- rm -rf build/ dist/ *.egg-info .mypy_cache .pytest_cache .coverage coverage.xml
@@ -115,10 +116,14 @@ piptest:
                       $(TESTDIR)/unit_tests/
 	pipenv --rm
 
-push_prereqs: lint
+prepush: lint
+	pytest --cov=quizmake --cov-report term-missing --cov-report xml -x \
+            $(TESTDIR)/smoke_tests/ $(TESTDIR)/end_to_end_tests \
+            $(TESTDIR)/regression_tests/ $(TESTDIR)/integration_tests/ \
+            $(TESTDIR)/unit_tests/
 	test -f "coverage.xml"
 
-push: push_prereqs
+push: prepush
 	coveralls
 	git add .
 	git status
