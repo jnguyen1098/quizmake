@@ -1,3 +1,6 @@
+# !/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Main function for executing the package
 This is the main program logic for when you run::
