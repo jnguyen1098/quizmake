@@ -1,43 +1,53 @@
 SHELL := /bin/bash
 TESTDIR = tests/
 
-.PHONY: refresh test clean
+.PHONY: run install test uninstall lint clean piptest push publish
 
 help:
-	@echo ""
-	@echo "======================== Main Recipes ============================="
-	@echo ""
-	@echo "    all"
-	@echo "        lints, installs, tests, uninstalls"
-	@echo ""
-	@echo "    lint"
-	@echo "        lints the code"
-	@echo ""
-	@echo "    install"
-	@echo "        builds and installs quizmake"
-	@echo ""
-	@echo "    test"
-	@echo "        runs all tests"
-	@echo ""
-	@echo "    uninstall"
-	@echo "        uninstalls quizmake."
-	@echo ""
-	@echo "======================== Dev. Recipes ============================="
-	@echo ""
-	@echo "    piptest (lint, clean)"
-	@echo "        runs the above tests in a pipenv virtual environment"
-	@echo ""
-	@echo "    push (lint, clean)"
-	@echo "        pushes current progress to GitHub"
-	@echo ""
-	@echo "    publish (lint, clean)"
-	@echo "        uploads current build to PyPi using twine"
-	@echo ""
-	@echo "    clean"
-	@echo "        cleans up all extraneous files/folders"
-	@echo ""
-	@echo "==================================================================="
-	@echo ""
+	@echo -e ""
+	@echo -e "======================== Main Recipes ============================="
+	@echo -e ""
+	@echo -e "    \e[7mall\e[0m"
+	@echo -e "        install, lint, test"
+	@echo -e ""
+	@echo -e "          \e[7minstall\e[0m"
+	@echo -e "              uninstalls existing copies, then installs"
+	@echo -e ""
+	@echo -e "          \e[7mlint\e[0m"
+	@echo -e "              checks code with isort, mypy, black, flake8, pylint"
+	@echo -e ""
+	@echo -e "          \e[7mtest\e[0m"
+	@echo -e "              smoke, end-to-end, regression, integration, unit"
+	@echo -e ""
+	@echo -e "                  \e[7msmoke\e[0m: runs a quick sanity test"
+	@echo -e ""
+	@echo -e "                  \e[7mend-to-end\e[0m: runs an exhaustive test suite"
+	@echo -e ""
+	@echo -e "                  \e[7mregression\e[0m: tests for problem regression"
+	@echo -e ""
+	@echo -e "                  \e[7mintegration\e[0m: tests for module cooperation"
+	@echo -e ""
+	@echo -e "                  \e[7munit\e[0m: tests individual modules in isolation"
+	@echo -e ""
+	@echo -e "    \e[7mclean\e[0m"
+	@echo -e "        cleans up all extraneous files/folders"
+	@echo -e ""
+	@echo -e "    \e[7muninstall\e[0m"
+	@echo -e "        uninstalls quizmake"
+	@echo -e ""
+	@echo -e "====================== Release Recipes ============================"
+	@echo -e ""
+	@echo -e "    \e[7mpiptest\e[0m"
+	@echo -e "        runs tests in a pipenv virtual environment"
+	@echo -e ""
+	@echo -e "    \e[7mpush\e[0m"
+	@echo -e "        pushes current progress to GitHub"
+	@echo -e ""
+	@echo -e "    \e[7mpublish\e[0m"
+	@echo -e "        uploads current build to PyPi using twine"
+	@echo -e ""
+	@echo -e "==================================================================="
+	@echo -e ""
 
 # Main stuff
 
@@ -49,51 +59,70 @@ help:
 # Level 6: git push into github actions
 # Level 7: push to pypi
 
-all: lint install test uninstall
+all:
+	make install
+	make lint
+	make test
+
+install: uninstall
+	pip3 install --editable .
 
 lint:
 	isort --recursive --diff
-	mypy
+	mypy --strict --show-error-context --show-column-numbers --show-error-codes --pretty
 	black --diff --check .
 	flake8
 	pylint quizmake
 	pylint tests/*/*.py
 
-install:
-	pip3 install --editable .
-
-test:
-	- pytest $(TESTDIR)/smoke_tests/ $(TESTDIR)/end_to_end_tests \
-           $(TESTDIR)/regression_tests/ $(TESTDIR)/integration_tests/ \
-           $(TESTDIR)/unit_tests/
+clean:
+	- rm -rf build/ dist/ *.egg-info
+	- find . -name "__pycache__" -type d -exec rm -r "{}" \;
+	- find . -name "*.pyc" -type f -exec rm -r "{}" \;
 
 uninstall:
 	- yes | pip3 uninstall quizmake
 
-# External Stuff
+# Testing
 
-piptest: lint clean
+test:
+	pytest --cov=quizmake --cov-report term-missing \
+            $(TESTDIR)/smoke_tests/ $(TESTDIR)/end_to_end_tests \
+            $(TESTDIR)/regression_tests/ $(TESTDIR)/integration_tests/ \
+            $(TESTDIR)/unit_tests/
+
+smoke:
+	pytest --cov=quizmake --cov-report term-missing $(TESTDIR)/smoke_tests/
+
+end-to-end:
+	pytest --cov=quizmake --cov-report term-missing $(TESTDIR)/end_to_end_tests/
+
+regression:
+	pytest --cov=quizmake --cov-report term-missing $(TESTDIR)/regression_tests/
+
+integration:
+	pytest --cov=quizmake --cov-report term-missing $(TESTDIR)/integration_tests
+
+unit:
+	pytest --cov=quizmake --cov-report term-missing $(TESTDIR)/unit_tests/
+
+# Production
+
+piptest:
 	pipenv install
 	pipenv run pytest $(TESTDIR)/smoke_tests/ $(TESTDIR)/end_to_end_tests \
                       $(TESTDIR)/regression_tests/ $(TESTDIR)/integration_tests/ \
                       $(TESTDIR)/unit_tests/
 	pipenv --rm
 
-push: lint clean
+push:
 	git add .
 	git status
 	git commit -a
 	git push
 
-publish: lint clean
+publish:
 	vim setup.py
 	sudo python3 setup.py sdist
 	sudo python3 setup.py bdist_wheel
 	twine upload dist/*
-
-# Housekeeping
-
-clean:
-	- rm -rf build/ dist/ *.egg-info
-	- find . -name "__pycache__" -type d -exec rm -r "{}" \;
-	- find . -name "*.pyc" -type f -exec rm -r "{}" \;

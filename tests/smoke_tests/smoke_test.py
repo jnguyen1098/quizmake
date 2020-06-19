@@ -4,13 +4,13 @@ Smoke test cases
 Testing to see if the system works
 """
 
-from quizmake import corpus
+import quizmake
 
 
-def test_corn():
+def test_corn() -> None:
     """
         This function is meant for greatness
     """
-    lmao = corpus.Corpus()
+    lmao = quizmake.Corpus()
     assert lmao is not None
-    assert corpus.corn() == "corn"
+    assert quizmake.corn() == "corn"
