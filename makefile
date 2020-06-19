@@ -116,6 +116,7 @@ piptest:
 	pipenv --rm
 
 push:
+	test "coverage.xml"
 	coveralls
 	git add .
 	git status
