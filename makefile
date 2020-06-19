@@ -115,8 +115,10 @@ piptest:
                       $(TESTDIR)/unit_tests/
 	pipenv --rm
 
-push:
-	test "coverage.xml"
+coveralls:
+	test -f "coverage.xml"
+
+push: coveralls
 	coveralls
 	git add .
 	git status
