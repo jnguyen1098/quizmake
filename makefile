@@ -132,7 +132,7 @@ push: prepush
 	git status
 	git commit -a
 	git push
-	echo -e "\e[32mSuccess\e[0m"
+	@echo -e "\e[32mSuccess\e[0m"
 
 publish:
 	vim VERSION
@@ -140,4 +140,4 @@ publish:
 	sudo python3 setup.py bdist_wheel
 	twine check dist/*
 	twine upload dist/*
-	echo -e "\e[32mSuccess\e[0m"
+	@echo -e "\e[32mSuccess\e[0m"

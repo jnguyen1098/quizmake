@@ -1,7 +1,7 @@
 quizmake
 ========
 
-|Lifecycle| |Build| |Coverage| |Issues| |License| |Python| |PyPi| |Black|
+|Lifecycle| |PyPi| |Build| |Coverage| |Issues| |License| |Python| |Black|
 
 A question generator I made for the University of Guelph.
 
