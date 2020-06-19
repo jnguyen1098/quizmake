@@ -1,7 +1,7 @@
 quizmake
 ========
 
-|Build| |Coverage| |Issues| |License|
+|Lifecycle| |Build| |Coverage| |Issues| |License| |Python|
 
 A question generator I made for the University of Guelph.
 
@@ -125,6 +125,8 @@ Also a test
 
 raw.githubusercontent.com/dbader/readme-template/master/README.md
 
+.. |Lifecycle| image:: https://img.shields.io/pypi/status/quizmake
+
 .. |Build| image:: https://img.shields.io/github/workflow/status/jnguyen1098/quizmake/Sanity
    :target: https://github.com/jnguyen1098/quizmake/actions?query=workflow%3ASanity
    :alt: Click here for build details
@@ -140,3 +142,6 @@ raw.githubusercontent.com/dbader/readme-template/master/README.md
 .. |License| image:: https://img.shields.io/github/license/jnguyen1098/quizmake
    :target: https://github.com/jnguyen1098/quizmake/blob/master/LICENSE
    :alt: Click here for information about the LICENSE
+   
+.. |Python| image:: https://img.shields.io/github/pipenv/locked/python-version/jnguyen1098/quizmake
+
