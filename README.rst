@@ -1,6 +1,8 @@
 quizmake
 ========
 
+|Build| |Issues| |License|
+
 A question generator I made for the University of Guelph.
 
 Despite developing this for Moodle, it should support anything that can take its export formats.
@@ -124,3 +126,15 @@ Also a test
 
 
 raw.githubusercontent.com/dbader/readme-template/master/README.md
+
+.. |Build| image:: https://img.shields.io/github/workflow/status/jnguyen1098/quizmake/Sanity
+   :target: https://github.com/jnguyen1098/quizmake/actions?query=workflow%3ASanity
+   :alt: Click here for build details
+   
+.. |Issues| image:: https://img.shields.io/github/issues/jnguyen1098/quizmake
+   :target: https://github.com/jnguyen1098/quizmake/issues
+   :alt: Click here to go to issues 
+
+.. |License| image:: https://img.shields.io/github/license/jnguyen1098/quizmake
+   :target: https://github.com/jnguyen1098/quizmake/blob/master/LICENSE
+   :alt: Click here for information about the LICENSE
