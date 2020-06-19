@@ -68,21 +68,19 @@ Lmao
 If under and overline are used, their length must be identical
 ##############################################################
 
-``
+
     # with overline, for parts
+
     * with overline, for chapters
+
     =, for sections
+
     -, for subsections
+
     ^, for subsubsections
+
     “, for paragraphs
 
-``
-
-test_label_
-
-:ref:`test_label`
-
-`Installation rst link`_
 
 * This is a bulleted list.
 * It has two items, the second

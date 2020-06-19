@@ -126,7 +126,7 @@ push: coveralls
 	git push
 
 publish:
-	vim setup.py
+	vim VERSION
 	sudo python3 setup.py sdist
 	sudo python3 setup.py bdist_wheel
 	twine upload dist/*
