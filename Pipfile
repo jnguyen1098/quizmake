@@ -10,6 +10,7 @@ flake8 = "*"
 pytest = "*"
 black = "*"
 pylint = "*"
+pytest-cov = "*"
 
 [packages]
 quizmake = {path = "."}

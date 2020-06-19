@@ -76,7 +76,7 @@ lint:
 	pylint tests/*/*.py
 
 clean:
-	- rm -rf build/ dist/ *.egg-info
+	- rm -rf build/ dist/ *.egg-info .mypy_cache .pytest_cache
 	- find . -name "__pycache__" -type d -exec rm -r "{}" \;
 	- find . -name "*.pyc" -type f -exec rm -r "{}" \;
 
