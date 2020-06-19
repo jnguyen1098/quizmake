@@ -1,5 +1,6 @@
 # Personal
 *.swp
+pyq/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

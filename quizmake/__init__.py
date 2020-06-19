@@ -1,8 +1,8 @@
-# !/usr/bin/env python
+# !/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """Initiate the file."""
-__all__ = ["Corpus", "corn"]
+__all__ = ["Corpus", "corn", "main"]
 __author__ = "Jason Nguyen"
 __copyright__ = "Copyright 2020, Jason Nguyen"
 __credits__ = "TBA"
@@ -14,3 +14,4 @@ with open("VERSION", "r") as fd:
     __version__ = fd.read().strip()
 
 from .corpus import Corpus, corn
+from .main import main

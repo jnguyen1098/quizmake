@@ -72,9 +72,11 @@ lint:
 	mypy --strict --show-error-context --show-column-numbers --show-error-codes --pretty
 	black --diff --check .
 	flake8 --count --show-source --statistics
+	pycodestyle --show-source --statistics --count .
 	pylint quizmake
 	pylint tests/*/*.py
 	pydocstyle -e -s --count
+	@echo -e "\e[32mSuccess\e[0m"
 
 clean:
 	- rm -rf build/ dist/ *.egg-info .mypy_cache .pytest_cache .coverage coverage.xml
@@ -115,6 +117,7 @@ piptest:
                       $(TESTDIR)/regression_tests/ $(TESTDIR)/integration_tests/ \
                       $(TESTDIR)/unit_tests/
 	pipenv --rm
+	@echo -e "\e[32mSuccess\e[0m"
 
 prepush: lint
 	pytest --cov=quizmake --cov-report term-missing --cov-report xml -x \
@@ -129,6 +132,7 @@ push: prepush
 	git status
 	git commit -a
 	git push
+	echo -e "\e[32mSuccess\e[0m"
 
 publish:
 	vim VERSION
@@ -136,3 +140,4 @@ publish:
 	sudo python3 setup.py bdist_wheel
 	twine check dist/*
 	twine upload dist/*
+	echo -e "\e[32mSuccess\e[0m"

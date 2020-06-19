@@ -1,7 +1,7 @@
 quizmake
 ========
 
-|Lifecycle| |Build| |Coverage| |Issues| |License| |Python|
+|Lifecycle| |Build| |Coverage| |Issues| |License| |Python| |PyPi| |Black|
 
 A question generator I made for the University of Guelph.
 
@@ -145,3 +145,7 @@ raw.githubusercontent.com/dbader/readme-template/master/README.md
    
 .. |Python| image:: https://img.shields.io/github/pipenv/locked/python-version/jnguyen1098/quizmake
 
+.. |PyPi| image:: https://img.shields.io/pypi/v/quizmake
+   :target: https://pypi.org/project/quizmake/
+
+.. |Black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
