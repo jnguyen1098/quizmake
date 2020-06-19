@@ -71,7 +71,7 @@ lint:
 	isort --recursive --diff
 	mypy --strict --show-error-context --show-column-numbers --show-error-codes --pretty
 	black --diff --check .
-	flake8
+	flake8 --count --show-source --statistics
 	pylint quizmake
 	pylint tests/*/*.py
 

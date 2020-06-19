@@ -32,11 +32,11 @@ jobs:
     
     - name: Static type checking
       run: |
-        pipenv run mypy
+        pipenv run mypy --strict --show-error-context --show-column-numbers --show-error-codes --pretty
     
     - name: Check code using black
       run: |
-        pipenv run black --check .
+        pipenv run black --diff --check .
 
     - name: Check code using flake8
       run: |
@@ -49,20 +49,20 @@ jobs:
 
     - name: Smoke tests
       run: |
-        pipenv run pytest tests/smoke_tests/
+        pipenv run pytest --cov=quizmake --cov-report term-missing tests/smoke_tests/
         
     - name: End-to-End tests
       run: |
-        pipenv run pytest tests/end_to_end_tests/
+        pipenv run pytest --cov=quizmake --cov-report term-missing tests/end_to_end_tests/
 
     - name: Integration tests
       run: |
-        pipenv run pytest tests/integration_tests/
+        pipenv run pytest --cov=quizmake --cov-report term-missing tests/integration_tests/
 
     - name: Regression tests
       run: |
-        pipenv run pytest tests/regression_tests/
+        pipenv run pytest --cov=quizmake --cov-report term-missing tests/regression_tests/
     
     - name: Unit tests
       run: |
-        pipenv run pytest tests/unit_tests/
+        pipenv run pytest --cov=quizmake --cov-report term-missing tests/unit_tests/
