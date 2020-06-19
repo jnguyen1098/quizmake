@@ -1,6 +1,7 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-    
+
+
 """
 Corpus module (for storing variable data)
 """
