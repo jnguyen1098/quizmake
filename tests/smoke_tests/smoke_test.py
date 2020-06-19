@@ -7,7 +7,7 @@ Testing to see if the system works
 import quizmake
 
 
-def donttest_corn() -> None:
+def test_corn() -> None:
     """
         This function is meant for greatness
     """
