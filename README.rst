@@ -1,7 +1,7 @@
 quizmake
 ========
 
-|Build| |Issues| |License|
+|Build| |Coverage| |Issues| |License|
 
 A question generator I made for the University of Guelph.
 
