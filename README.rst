@@ -131,6 +131,10 @@ raw.githubusercontent.com/dbader/readme-template/master/README.md
    :target: https://github.com/jnguyen1098/quizmake/actions?query=workflow%3ASanity
    :alt: Click here for build details
    
+.. |Coverage| image:: https://img.shields.io/coveralls/github/jnguyen1098/quizmake
+   :target: https://coveralls.io/github/jnguyen1098/quizmake
+   :alt: Click here for test coverage
+   
 .. |Issues| image:: https://img.shields.io/github/issues/jnguyen1098/quizmake
    :target: https://github.com/jnguyen1098/quizmake/issues
    :alt: Click here to go to issues 
