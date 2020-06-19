@@ -129,4 +129,5 @@ publish:
 	vim VERSION
 	sudo python3 setup.py sdist
 	sudo python3 setup.py bdist_wheel
+	twine check dist/*
 	twine upload dist/*

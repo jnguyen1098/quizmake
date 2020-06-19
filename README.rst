@@ -18,13 +18,13 @@ https://github.com/alvations/Quotables
 Installation
 ------------
 
-If you use `pip3`, you can install it by doing::
+If you use `pip3`, you can install it by doing
 
-    pip3 install quizmake
+>>> pip3 install quizmake
 
-Alternatively, you may install this repo locally by cloning it and running::
+Alternatively, you may install this repo locally by cloning it and running
 
-    pip3 install -e .
+>>> pip3 install -e .
 
 Information
 -----------
