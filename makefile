@@ -76,7 +76,7 @@ lint:
 	pylint tests/*/*.py
 
 clean:
-	- rm -rf build/ dist/ *.egg-info .mypy_cache .pytest_cache
+	- rm -rf build/ dist/ *.egg-info .mypy_cache .pytest_cache .coverage coverage.xml
 	- find . -name "__pycache__" -type d -exec rm -r "{}" \;
 	- find . -name "*.pyc" -type f -exec rm -r "{}" \;
 
@@ -86,7 +86,7 @@ uninstall:
 # Testing
 
 test:
-	pytest --cov=quizmake --cov-report term-missing \
+	pytest --cov=quizmake --cov-report term-missing --cov-report xml \
             $(TESTDIR)/smoke_tests/ $(TESTDIR)/end_to_end_tests \
             $(TESTDIR)/regression_tests/ $(TESTDIR)/integration_tests/ \
             $(TESTDIR)/unit_tests/
@@ -116,6 +116,7 @@ piptest:
 	pipenv --rm
 
 push:
+	coveralls
 	git add .
 	git status
 	git commit -a
