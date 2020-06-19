@@ -1,0 +1,21 @@
+__QUESTION__
+Given the following makefile, how would you remove all compiled (not source) files?
+
+CC = gcc
+CFLAGS = -Wall -std=c99
+
+run:
+    ./a.out
+
+clean:
+    rm -rf *.o
+__ANSWER__
+make clean
+make run
+make all
+make
+__FEEDBACK__
+Yes, 'clean' is customarily the name most people use for cleaning up
+No, this is for running the program
+No, this recipe doesn't even exist in the makefile. It would usually be used to make all of the program's object files and libraries though
+No, this defaults to the first recipe, which is 'run'

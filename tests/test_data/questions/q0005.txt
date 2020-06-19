@@ -1,0 +1,12 @@
+__QUESTION__
+Say you want to dynamically allocate a 2D array of {type1}. Which would be the correct way to declare it?
+__ANSWER__
+{type1} **{var1};
+{type1} {var1};
+{type1} *{var1};
+{type1} ***{var1};
+__FEEDBACK__
+Correct; you would need a pointer to a {type1} pointer.
+Incorrect. This only declares a single {type1}.
+Incorrect. This only creates a 1D array of {type1}.
+Incorrect. This creates a whopping 3D array of {type1}.

@@ -5,7 +5,7 @@
 
 import sys
 
-from . import main
+from . import core
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv))
+    sys.exit(core.main(sys.argv))

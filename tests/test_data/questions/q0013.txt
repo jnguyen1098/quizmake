@@ -1,0 +1,27 @@
+__QUESTION__
+This program was supposed to sum up all the numbers in the array, but the programmer made a huge mistake. Correct the flawed line if possible.
+
+#include <stdio.h>
+
+int main(void)
+{
+    int {var1}[5] = {{digit_non_zero}{digit_non_zero}, {digit_non_zero}{digit_non_zero}, {digit_non_zero}{digit_non_zero}, {digit_non_zero}{digit_non_zero}, {digit_non_zero}{digit_non_zero}};
+
+    int {var3} = 0;
+
+    for (int {var2} = 0; {var2} <= sizeof({var1}); {var2}++) {
+        {var3} = {var3} + {var1}[{var2}];
+    }
+
+    return 0;
+}
+__ANSWER__
+for (int {var2} = 0; {var2} < sizeof({var1})/sizeof({var1}[0]); {var2}++)
+for (int {var2} = 0; {var2} < sizeof({var1}); {var2}++)
+This code runs fine.
+for (int {var2} = 0; {var2} < sizeof({var1}); {var2}--)
+__FEEDBACK__
+Correct. sizeof({var1}) merely finds the total memory usage of the array, not the number of elements. By dividing it by the size of a single element, only then can we find the array's length.
+Incorrect. sizeof({var1}) on its own will only give you the array's size as a whole, not the number of elements.
+Clearly it doesn't.
+No, we start at index 0. If we go backwards, it's undefined behaviour.

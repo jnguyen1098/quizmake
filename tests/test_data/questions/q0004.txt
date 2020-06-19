@@ -1,0 +1,26 @@
+__QUESTION__
+Why won't this code compile?
+
+#include <{include1}>
+#include <{include2}>
+#include <{include3}>
+#include <{include4}>
+#include <{include5}>
+
+int main(void)
+{
+    char {var1}[] = "{string}";
+    printf("%s\n", {var1});
+    return 0
+}
+
+__ANSWER__
+The programmer forget to put a semicolon on the return
+{var1} is incorrectly initialized
+#include <{include3}> is breaking gcc
+#include <{include4}> is breaking gcc
+__FEEDBACK__
+Correct.
+{var1} is correctly initialized as a string
+The {include3} standard library won't break anything even if not used
+The {include4} standard library won't break anything even if not used

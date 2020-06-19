@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Common functions.
+Common helper functions.
 
 This will represent the bread and butter of the application.
 """

@@ -1,0 +1,10 @@
+__QUESTION__
+True or False:
+
+C uses dynamic type-checking (i.e. types are checked when you run the program, as opposed to when you compile it)
+__ANSWER__
+False
+True
+__FEEDBACK__
+C actually uses static type-checking
+Think again.

@@ -11,8 +11,9 @@ As if one did this:
 import argparse
 import logging
 import os
-from pathlib import Path
 from typing import List
+
+from quizmake import parser
 
 
 def main(argv: List[str]) -> int:
@@ -25,7 +26,7 @@ def main(argv: List[str]) -> int:
     :rtype: int
     """
     # Parse arguments
-    parser = argparse.ArgumentParser()
+    arg_p = argparse.ArgumentParser()
 
     """
     Validate argument syntax
@@ -37,13 +38,13 @@ def main(argv: List[str]) -> int:
             the location of the questions folder
     """
 
-    parser.add_argument("tokens", help="specify tokens folder")
-    parser.add_argument("questions", help="specify questions folder")
-    parser.add_argument(
+    arg_p.add_argument("tokens", help="specify tokens folder")
+    arg_p.add_argument("questions", help="specify questions folder")
+    arg_p.add_argument(
         "-v", "--verbose", help="verbose debug output", action="store_true"
     )
 
-    args = parser.parse_args()
+    args = arg_p.parse_args()
 
     # Set up logging
     logging.basicConfig(
@@ -64,11 +65,34 @@ def main(argv: List[str]) -> int:
     export of the resultant files. Here I am to save some time.
     """
 
-    questions_folder = Path(args.questions)
-    tokens_folder = Path(args.tokens)
+    q_folder = args.questions
+    t_folder = args.tokens
 
-    logging.info(f'Checking path "{questions_folder}" for questions')
-    logging.info(f'Checking path "{tokens_folder}" for tokens')
+    logging.info(f'Checking path "{q_folder}" for questions')
+    if not parser.assert_nonempty_dir(q_folder):
+        logging.error(f"{q_folder} either has no questions or doesn't exist")
+        logging.error("Exiting...")
+        return os.EX_USAGE
+
+    logging.info(f'Checking path "{t_folder}" for tokenss')
+    if not parser.assert_nonempty_dir(t_folder):
+        logging.error(f"{t_folder} either has no tokens or doesn't exist")
+        logging.error("Exiting...")
+        return os.EX_USAGE
+
+    # Verify every question/token file
+
+    for question in os.listdir(q_folder):
+        if not parser.assert_question_file(question):
+            logging.error(f"{question} is not a valid question. Skipping...")
+        else:
+            logging.info(f"{question} is valid...")
+
+    for token in os.listdir(t_folder):
+        if not parser.assert_token_file(token):
+            logging.error(f"{token} is not a valid token. Skipping...")
+        else:
+            logging.info(f"{token} is valid...")
 
     print(argv)
 

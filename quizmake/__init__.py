@@ -13,5 +13,5 @@ __status__ = "Planning"
 with open("VERSION", "r") as fd:
     __version__ = fd.read().strip()
 
+from .core import main
 from .corpus import Corpus, corn
-from .main import main

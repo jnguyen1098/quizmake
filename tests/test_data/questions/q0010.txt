@@ -1,0 +1,10 @@
+__QUESTION__
+True or False?
+
+A binary tree always has three leaf nodes, hence the name "binary tree".
+__ANSWER__
+False
+True
+__FEEDBACK__
+Binary actually means "two", so three is indeed incorrect.
+Sorry but no.

@@ -1,0 +1,21 @@
+__QUESTION__
+Why does this program compile with warning(s)?
+
+#include <stdlib.h>
+
+int main(void)
+{
+    double {var} = {CUSTOM.random_digit}.{CUSTOM.random_digit}{CUSTOM.random_digit};
+    printf("Hello world!\n");
+    return 0;
+}
+__ANSWER__
+The programmer didn't #include <stdio.h>
+The programmer should have used puts() instead
+There is nothing wrong with the program
+<stdlib.h> is deprecated (obsolete)
+__FEEDBACK__
+Yup, you need this to call printf()
+Nope, puts() and printf() accomplish nearly the same thing in this context
+There certainly is something wrong with this program. Compile if you give up!
+<stdlib.h> is one of the most important libraries!
