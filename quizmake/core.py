@@ -11,6 +11,7 @@ As if one did this:
 import argparse
 import logging
 import os
+import sys
 from typing import List
 
 from quizmake import parser
@@ -25,26 +26,10 @@ def main(argv: List[str]) -> int:
     :return: The exit code of the program, usually.
     :rtype: int
     """
-    # Parse arguments
-    arg_p = argparse.ArgumentParser()
-
-    """
-    Validate argument syntax
-
-        tokens
-            the location of the tokens folder
-
-        questions
-            the location of the questions folder
-    """
-
-    arg_p.add_argument("tokens", help="specify tokens folder")
-    arg_p.add_argument("questions", help="specify questions folder")
-    arg_p.add_argument(
-        "-v", "--verbose", help="verbose debug output", action="store_true"
-    )
-
-    args = arg_p.parse_args()
+    try:
+        args = parser.verify_args(argv[1:])
+    except argparse.ArgumentError:
+        sys.exit(os.EX_USAGE)
 
     # Set up logging
     logging.basicConfig(
@@ -93,7 +78,5 @@ def main(argv: List[str]) -> int:
             logging.error(f"{token} is not a valid token. Skipping...")
         else:
             logging.info(f"{token} is valid...")
-
-    print(argv)
 
     return os.EX_OK

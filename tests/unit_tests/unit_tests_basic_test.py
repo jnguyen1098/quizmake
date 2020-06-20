@@ -6,7 +6,32 @@ Execute unit tests.
 Testing each component separately in isolation
 """
 
+import argparse
+from typing import List
+
 from quizmake import parser, quizmake
+
+
+def test_bad_args() -> None:
+    """Test for invalid command-line args."""
+    bad_args: List[List[str]] = [["arg1", "arg2", "arg3"], [], ["arg1"]]
+
+    for bad_arg in bad_args:
+        try:
+            parser.verify_args(bad_arg)
+            assert False
+        except argparse.ArgumentError:
+            pass
+
+
+def test_valid_args() -> None:
+    """Test for valid configurations of command-line args."""
+    try:
+        assert parser.verify_args(["arg1", "arg2"])
+        assert parser.verify_args(["arg1", "arg2", "-v"])
+        assert parser.verify_args(["arg1", "arg2", "--verbose"])
+    except argparse.ArgumentError:
+        assert False
 
 
 def test_nonempty_dir_assertions() -> None:
