@@ -11,6 +11,7 @@ pytest = "*"
 black = "*"
 pylint = "*"
 pytest-cov = "*"
+pyparsing = "*"
 
 [packages]
 quizmake = {path = "."}
