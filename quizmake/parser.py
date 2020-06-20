@@ -28,7 +28,7 @@ class CaughtArgumentParser(argparse.ArgumentParser):
         self.print_usage(sys.stderr)
         args = {"prog": self.prog, "message": message}
         sys.stderr.write("%(prog)s: error: %(message)s\n" % args)
-        raise argparse.ArgumentError(None, None)
+        raise ValueError()
 
 
 def verify_args(argv: List[str]) -> argparse.Namespace:
@@ -52,10 +52,41 @@ def verify_args(argv: List[str]) -> argparse.Namespace:
 
 
 def assert_nonempty_dir(folder: str) -> bool:
-    """Assert that a directory is not empty and has files."""
+    """
+    Assert that a directory is not empty.
+
+    :param folder: the folder
+    :type folder: str
+    :return: Truth statement
+    :rtype: bool
+    """
     if not os.path.isdir(folder) or not os.listdir(folder):
         return False
     return True
+
+
+def assert_dir_has_files(folder: str) -> bool:
+    """
+    Assert that a directory has files.
+
+    This differs from the assert_nonempty_dir function
+    because a folder with no files but only subfolders
+    will return true when passed through that function.
+
+    :param folder: The folder
+    :type folder: str
+    :return: Truth statement
+    :rtype: bool
+    """
+    if not assert_nonempty_dir(folder):
+        return False
+
+    count = 0
+    for _ in os.listdir(folder):
+        if os.path.isfile(folder + "/" + _):
+            count += 1
+
+    return count > 0
 
 
 def assert_question_file(question: str) -> bool:

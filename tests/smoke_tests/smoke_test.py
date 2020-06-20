@@ -11,5 +11,9 @@ from quizmake import core
 
 def test_sanity() -> None:
     """Test bad command line arguments."""
-    args = ["prog", "tests/test_data/tokens", "tests/test_data/questions"]
+    args = [
+        "prog",
+        "tests/test_data/tokens/valid_tokens/",
+        "tests/test_data/questions/valid_questions/",
+    ]
     assert core.main(args) == 0

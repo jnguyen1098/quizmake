@@ -20,7 +20,7 @@ def test_bad_args() -> None:
         try:
             parser.verify_args(bad_arg)
             assert False
-        except argparse.ArgumentError:
+        except ValueError:
             pass
 
 

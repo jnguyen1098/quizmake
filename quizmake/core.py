@@ -8,7 +8,6 @@ As if one did this:
 >>> python3 -m quizmake
 """
 
-import argparse
 import logging
 import os
 from typing import List
@@ -27,7 +26,7 @@ def main(argv: List[str]) -> int:
     """
     try:
         args = parser.verify_args(argv[1:])
-    except argparse.ArgumentError:
+    except ValueError:
         return os.EX_USAGE
 
     # Set up logging
@@ -49,18 +48,18 @@ def main(argv: List[str]) -> int:
     export of the resultant files. Here I am to save some time.
     """
 
-    q_folder = args.questions
     t_folder = args.tokens
+    q_folder = args.questions
 
-    logging.info(f'Checking path "{q_folder}" for questions')
-    if not parser.assert_nonempty_dir(q_folder):
-        logging.error(f"{q_folder} either has no questions or doesn't exist")
+    logging.info(f'Checking path "{t_folder}" for tokens')
+    if not parser.assert_dir_has_files(t_folder):
+        logging.error(f"{t_folder} either has no tokens or doesn't exist")
         logging.error("Exiting...")
         return os.EX_USAGE
 
-    logging.info(f'Checking path "{t_folder}" for tokenss')
-    if not parser.assert_nonempty_dir(t_folder):
-        logging.error(f"{t_folder} either has no tokens or doesn't exist")
+    logging.info(f'Checking path "{q_folder}" for questions')
+    if not parser.assert_dir_has_files(q_folder):
+        logging.error(f"{q_folder} either has no questions or doesn't exist")
         logging.error("Exiting...")
         return os.EX_USAGE
 
