@@ -9,7 +9,7 @@ Testing each component separately in isolation
 import argparse
 from typing import List
 
-from quizmake import parser, quizmake
+from quizmake import parser
 
 
 def test_bad_args() -> None:
@@ -43,20 +43,4 @@ def test_nonempty_dir_assertions() -> None:
     # Nonexistent folder
     assert not parser.assert_nonempty_dir("kasjdfs")
     # Existent but empty folder
-    assert not parser.assert_nonempty_dir("tests/unit_tests/empty")
-
-
-def test_unit_1() -> None:
-    """Execute placeholder test."""
-    assert quizmake.return_string() == "string"
-
-
-def test_unit_2() -> None:
-    """Execute placeholder test."""
-    assert quizmake.return_string() == "string"
-
-
-def test_unit_3() -> None:
-    """Execute placeholder test."""
-    number: str = "10"
-    assert number == "10"
+    assert not parser.assert_nonempty_dir("tests/test_data/empty")

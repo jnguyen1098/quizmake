@@ -6,20 +6,30 @@ Execute integration test cases.
 Tests the union of multiple components
 """
 
-from quizmake import quizmake
+import os
+
+from quizmake import core
 
 
-def test_integration_1() -> None:
-    """Execute placeholder test."""
-    assert quizmake.return_string() == "string"
+def test_nonexistent_tokens_folder() -> None:
+    """Ensure program fails on nonexistent tokens folder."""
+    args = ["prog", "dskfgjafkgj", "tests/test_data/questions"]
+    assert core.main(args) == os.EX_USAGE
 
 
-def test_integration_2() -> None:
-    """Execute placeholder test."""
-    assert quizmake.return_string() == "string"
+def test_nonexistent_questions_folder() -> None:
+    """Ensure program fails on nonexistent questions folder."""
+    args = ["prog", "tests/test_data/tokens", "209fu09wfe"]
+    assert core.main(args) == os.EX_USAGE
 
 
-def test_integration_3() -> None:
-    """Execute placeholder test."""
-    number: str = "10"
-    assert number == "10"
+def test_empty_tokens_folder() -> None:
+    """Ensure program fails on empty tokens folder."""
+    args = ["prog", "tests/test_data/empty/", "tests/test_data/questions"]
+    assert core.main(args) == os.EX_USAGE
+
+
+def test_empty_questions_folder() -> None:
+    """Ensure program fails on empty tokens folder."""
+    args = ["prog", "tests/test_data/tokens", "tests/test_data/empty"]
+    assert core.main(args) == os.EX_USAGE
