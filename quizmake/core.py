@@ -11,7 +11,6 @@ As if one did this:
 import argparse
 import logging
 import os
-import sys
 from typing import List
 
 from quizmake import parser
@@ -29,7 +28,7 @@ def main(argv: List[str]) -> int:
     try:
         args = parser.verify_args(argv[1:])
     except argparse.ArgumentError:
-        sys.exit(os.EX_USAGE)
+        return os.EX_USAGE
 
     # Set up logging
     logging.basicConfig(
