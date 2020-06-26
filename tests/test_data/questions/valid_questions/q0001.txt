@@ -1,5 +1,6 @@
-__QUESTION__
+[multiple_choice]
 Why does this program compile with warning(s)?
+// COMMENT ONE
 
 #include <stdlib.h>
 
@@ -9,13 +10,16 @@ int main(void)
     printf("Hello world!\n");
     return 0;
 }
-__ANSWER__
+[answer]
+// COMMENT TWO
 The programmer didn't #include <stdio.h>
 The programmer should have used puts() instead
 There is nothing wrong with the program
+// COMMENT THREE
 <stdlib.h> is deprecated (obsolete)
-__FEEDBACK__
+[feedback]
 Yup, you need this to call printf()
 Nope, puts() and printf() accomplish nearly the same thing in this context
+// COMMENT FOUR
 There certainly is something wrong with this program. Compile if you give up!
 <stdlib.h> is one of the most important libraries!

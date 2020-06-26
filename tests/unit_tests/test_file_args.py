@@ -1,9 +1,9 @@
 # !/usr/bin/env python3
 
 """
-Execute unit tests.
+Execute unit tests for file I/O arguments..
 
-Testing each component separately in isolation
+Making sure the program detects proper and erroneous args
 """
 
 import argparse

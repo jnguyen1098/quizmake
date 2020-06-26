@@ -1,10 +1,10 @@
-__QUESTION__
+[multiple_choice]
 True or False:
 
 C uses dynamic type-checking (i.e. types are checked when you run the program, as opposed to when you compile it)
-__ANSWER__
+[answer]
 False
 True
-__FEEDBACK__
+[feedback]
 C actually uses static type-checking
 Think again.

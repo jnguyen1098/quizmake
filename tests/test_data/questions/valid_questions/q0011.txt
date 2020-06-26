@@ -1,4 +1,4 @@
-__QUESTION__
+[multiple_choice]
 How many times will "{string1}" print?
 
 #include <stdio.h>
@@ -13,12 +13,12 @@ int main(void)
     puts("{string1}");
     return 0;
 }
-__ANSWER__
+[answer]
 8 times
 3 times
 0 times
 1 time
-__FEEDBACK__
+[feedback]
 Correct; every instance of fork() will cause the next calls to occur twice, and the next ones to occur four times, etc; it's 2^(number of fork() calls)
 How many processes are there every time fork() is called?
 puts() is just as capable of printing "{string1}" as printf() is, so try again

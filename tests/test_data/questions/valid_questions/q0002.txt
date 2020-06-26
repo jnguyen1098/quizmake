@@ -1,4 +1,4 @@
-__QUESTION__
+[multiple_choice]
 Trace this code and find the output.
 
 #include <stdio.h>
@@ -21,12 +21,12 @@ int main(void)
 
     return 0;
 }
-__ANSWER__
+[answer]
 {string1}
 {string2}
 {string}
 {string}
-__FEEDBACK__
+[feedback]
 Yes. {var3} is bigger than {var2} so "{string1}" is copied over.
 No. Trace again.
 Not even close.

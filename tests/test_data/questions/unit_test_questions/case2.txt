@@ -1,0 +1,21 @@
+[multiple_choice]
+  Hello there.
+    This is a question on multiple lines.
+      hehe....
+
+
+[answer]
+This is an answer line.
+That exists on multiple lines.
+Because sometimes we need...
+Multiple answers, no?
+[feedback]
+This is a feedback line.
+So is this.
+asdf
+asdf
+asdf
+asdf
+asdf
+asdf
+asdf

@@ -72,7 +72,7 @@ lint:
 	mypy --strict --show-error-context --show-column-numbers --show-error-codes --pretty
 	black --diff --check .
 	flake8 --count --show-source --statistics
-	pycodestyle --show-source --statistics --count .
+	pycodestyle --max-line-length=89 --show-source --statistics --count .
 	pylint quizmake
 	pylint tests/*/*.py
 	pydocstyle -e -s --count

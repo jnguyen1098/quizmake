@@ -1,11 +1,11 @@
-__QUESTION__
+[multiple_choice]
 Which of the following declarations refers to a pointer to a function that takes in a(n) {type1}, a(n) {type2} and returns a(n) {type3}?
-__ANSWER__
+[answer]
 {type3} (*{var1})({type2}, {type1});
 {type3} {var2}({type1}, {type2});
 {type4} {var3}({type1}, {type2});
 {type4} (*{var4})({type2}, {type1});
-__FEEDBACK__
+[feedback]
 Correct. Because of the asterisk's (*) low precedence, it is important to use parentheses to ensure correct operator precedence for {var1}.
 Incorrect. {var2} is just a function, not a function pointer.
 Incorrect. {var3} shouldn't return {type4}.

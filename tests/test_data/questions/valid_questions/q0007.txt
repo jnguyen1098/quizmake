@@ -1,4 +1,4 @@
-__QUESTION__
+[multiple_choice]
 Given the following makefile, how would you remove all compiled (not source) files?
 
 CC = gcc
@@ -9,12 +9,12 @@ run:
 
 clean:
     rm -rf *.o
-__ANSWER__
+[answer]
 make clean
 make run
 make all
 make
-__FEEDBACK__
+[feedback]
 Yes, 'clean' is customarily the name most people use for cleaning up
 No, this is for running the program
 No, this recipe doesn't even exist in the makefile. It would usually be used to make all of the program's object files and libraries though

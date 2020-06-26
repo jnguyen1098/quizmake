@@ -8,9 +8,59 @@ This will represent the bread and butter of the application.
 """
 
 import argparse
+import logging
 import os
 import sys
+from enum import Enum
 from typing import List, NoReturn
+
+from pyparsing import ParseException
+
+from quizmake import grammar
+
+
+class QuestionType(Enum):
+    """Enumeration of the question types."""
+
+    OTHER = 0
+    MULTIPLE_CHOICE = 1
+    SHORT_ANSWER = 2
+    TRUE_FALSE = 3
+    MATCHING = 4
+    NUMERICAL = 5
+    ESSAY = 6
+    DESCRIPTION = 7
+    CLOZE = 8
+
+
+# Question Object
+class Question:
+    """Used to store question file data."""
+
+    def __init__(self, filename: str) -> None:
+        """Create a question using the filename."""
+        self.sections = {}
+        self.filename = filename
+        self.parsed = grammar.parse_file(filename)
+
+        for section in self.parsed:
+            if section[0].casefold() == "[multiple_choice]".casefold():
+                self.type = QuestionType.MULTIPLE_CHOICE
+                self.sections["question"] = "\n".join(section[1:])
+            elif section[0].casefold() == "[answer]".casefold():
+                self.sections["answers"] = "\n".join(section[1:])
+            elif section[0].casefold() == "[feedback]".casefold():
+                self.sections["feedback"] = "\n".join(section[1:])
+            else:
+                raise Exception("There is a massive parsing error...")
+
+    def speak(self) -> None:
+        """Thwart the linter lmao."""
+        print(self.sections)
+
+    def speaker(self) -> None:
+        """Thwart the linter again."""
+        print(self.filename)
 
 
 class CaughtArgumentParser(argparse.ArgumentParser):
@@ -55,6 +105,8 @@ def assert_nonempty_dir(folder: str) -> bool:
     """
     Assert that a directory is not empty.
 
+    This means subfolders count!
+
     :param folder: the folder
     :type folder: str
     :return: Truth statement
@@ -89,11 +141,39 @@ def assert_dir_has_files(folder: str) -> bool:
     return count > 0
 
 
-def assert_question_file(question: str) -> bool:
-    """Check if a question file has correct structure."""
-    return bool(question)
+def assert_token_file(filename: str) -> bool:
+    """
+    Check if a token file has correct structure.
+
+    :param filename: File path to the token file
+    :type filename: str:
+    :return: Truth statement answering the question
+    :rtype: bool
+    """
+    try:
+        with open(filename, "r") as token_fp:
+            i = 0
+            for i, dummy in enumerate(token_fp, 1):
+                pass
+        return i > 0
+    except (OSError, IOError) as exception:
+        logging.debug(f"Token file exception: {exception}")
+        return False
 
 
-def assert_token_file(token: str) -> bool:
-    """Check if a token file has correct structure."""
-    return bool(token)
+def assert_question_file(filename: str) -> bool:
+    """
+    Check if a question file has correct structure.
+
+    :param filename: File path to the question file
+    :type filename: str
+    :return: Truth statement answering the question
+    :rtype: bool
+    """
+    try:
+        # Question(filename)
+        list(grammar.parse_file(filename))
+        return True
+    except ParseException as exception:
+        logging.debug(f"Question file exception: {exception}")
+        return False

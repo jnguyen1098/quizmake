@@ -63,18 +63,43 @@ def main(argv: List[str]) -> int:
         logging.error("Exiting...")
         return os.EX_USAGE
 
-    # Verify every question/token file
+    """
+    This is going to be a relatively slow (but important) step where each and
+    every token and question file will be validated and parsed into objects.
 
-    for question in os.listdir(q_folder):
-        if not parser.assert_question_file(question):
-            logging.error(f"{question} is not a valid question. Skipping...")
-        else:
-            logging.info(f"{question} is valid...")
+    For tokens, it's going to be relatively quick, as tokens are delimited
+    merely line-by-line.
 
+    For questions, on the other hand... :grimace:
+
+    TODO: in this part of the project, I haven't thought of the top-down
+          result of parsing tokens and questions. I just want to parse.
+
+          In the original project, I had a 'DataSet' object that basically
+          represented each file in the tokens folder. Then, I had a 'Corpus'
+          object that held a dictionary of 'DataSet' objects and a top-level
+          interface was made from that. I might do the same, but less messy.
+
+          The original implementation used a very weird index system.
+    """
+
+    # PLANNED: integrate validation and creation into one step
     for token in os.listdir(t_folder):
-        if not parser.assert_token_file(token):
+        logging.debug(f"Testing token {token}")
+        if not parser.assert_token_file(t_folder + "/" + token):
             logging.error(f"{token} is not a valid token. Skipping...")
         else:
             logging.info(f"{token} is valid...")
+
+    questions_array = []
+    for question in os.listdir(q_folder):
+        logging.debug(f"Testing question {question}")
+        parser.assert_question_file(q_folder + "/" + question)
+        if not parser.assert_question_file(q_folder + "/" + question):
+            logging.error(f"{question} is not a valid question. Skipping...")
+        else:
+            logging.info(f"{question} is valid...")
+            temp = parser.Question(q_folder + "/" + question)
+            questions_array.append(temp)
 
     return os.EX_OK
