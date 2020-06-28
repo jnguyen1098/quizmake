@@ -44,13 +44,29 @@ class Question:
         self.parsed = grammar.parse_file(filename)
 
         for section in self.parsed:
+
             if section[0].casefold() == "[multiple_choice]".casefold():
                 self.type = QuestionType.MULTIPLE_CHOICE
-                self.sections["question"] = "\n".join(section[1:])
+                question_lines: List[str] = []
+                for line in section[1:]:
+                    if not line.startswith("//"):
+                        question_lines.append(line)
+                self.sections["question"] = ["\n".join(question_lines)]
+
             elif section[0].casefold() == "[answer]".casefold():
-                self.sections["answers"] = "\n".join(section[1:])
+                answer_lines: List[str] = []
+                for line in section[1:]:
+                    if not line.startswith("//"):
+                        answer_lines.append(line)
+                self.sections["answers"] = answer_lines
+
             elif section[0].casefold() == "[feedback]".casefold():
-                self.sections["feedback"] = "\n".join(section[1:])
+                feedback_lines: List[str] = []
+                for line in section[1:]:
+                    if not line.startswith("//"):
+                        feedback_lines.append(line)
+                self.sections["feedback"] = feedback_lines
+
             else:
                 raise Exception("There is a massive parsing error...")
 

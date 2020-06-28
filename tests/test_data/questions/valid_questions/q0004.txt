@@ -14,7 +14,7 @@ int main(void)
     return 0
 }
 [answer]
-The programmer forget to put a semicolon on the return
+The programmer forgot to put a semicolon on the return
 {var1} is incorrectly initialized
 #include <{include3}> is breaking gcc
 #include <{include4}> is breaking gcc

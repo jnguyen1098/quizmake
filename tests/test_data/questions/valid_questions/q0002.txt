@@ -1,4 +1,5 @@
 [multiple_choice]
+// This is a basic tracing question. {var3} is always bigger than {var2}
 Trace this code and find the output.
 
 #include <stdio.h>

@@ -25,27 +25,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pipenv install --deploy --dev
-    
-    - name: Sort imports 
-      run: |
-        pipenv run isort --recursive --diff
-    
-    - name: Static type checking
-      run: |
-        pipenv run mypy --strict --show-error-context --show-column-numbers --show-error-codes --pretty
-    
-    - name: Check code using black
-      run: |
-        pipenv run black --diff --check .
-
-    - name: Check code using flake8
-      run: |
-        pipenv run flake8 . --count --show-source --statistics
-    
-    - name: Check code using pylint
-      run: |
-        pipenv run pylint quizmake
-        pipenv run pylint tests/*/*.py
 
     - name: Smoke tests
       run: |
