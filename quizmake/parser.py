@@ -8,8 +8,10 @@ This will represent the bread and butter of the application.
 """
 
 import argparse
+import copy
 import logging
 import os
+import random
 import sys
 from enum import Enum
 from typing import List, NoReturn
@@ -79,6 +81,63 @@ class Question:
         print(self.filename)
 
 
+# Token database
+class TokenSet:
+    """Used to store token data."""
+
+    def __init__(self, filename: str) -> None:
+        """Create a token list using the filename."""
+
+    def __init__(self, filename):
+        with open(filename, "r") as fd:
+            self.data = fd.read().splitlines()
+            self.data = list(filter(lambda a : a, self.data))
+            self.uniques = random.sample(copy.deepcopy(self.data), len(self.data))
+
+    def get_random(self):
+        return random.choice(self.data)
+
+    def pop_random(self):
+        if self.uniques:
+            elem = self.uniques.pop()
+            return elem
+        return None
+
+    def reset_uniques(self):
+        self.uniques = copy.deepcopy(self.data)
+        random.shuffle(self.uniques)
+
+
+# Corpus
+class Corpus:
+    """Used to store a bunch of tokens and their indexes."""
+
+    # TODO: this is bad
+    def __init__(self, tokens_folder):
+        self.data = {}
+        for filename in os.listdir(tokens_folder):
+            logging.info(f"Parsing token file '{filename}'")
+            self.data[filename] = { 0 : TokenSet(tokens_folder + "/" + filename) }
+
+    def exists(self, filename):
+        return filename in self.data
+
+    def request(self, filename, number):
+        if not self.exists(filename):
+            return None # should raise exception
+        if number == 0:
+            return self.data[filename][0].get_random()
+        if number not in self.data[filename]:
+            elem = self.data[filename][0].pop_random()
+            if not elem:
+                raise Exception(f"No unique strings left in {filename}")
+            self.data[filename][number] = elem
+        return self.data[filename][number]
+
+    def items(self):
+        return self.data.items()
+
+
 class CaughtArgumentParser(argparse.ArgumentParser):
     """Overridden argparse.ArgumentParser class.
 
@@ -110,6 +169,11 @@ def verify_args(argv: List[str]) -> argparse.Namespace:
 
     arg_p.add_argument("tokens", help="specify tokens folder")
     arg_p.add_argument("questions", help="specify questions folder")
+    arg_p.add_argument(
+        "--export-gift",
+        help="specify GIFT export and output filename",
+        metavar="--export_gift",
+    )
     arg_p.add_argument(
         "-v", "--verbose", help="verbose debug output", action="store_true"
     )

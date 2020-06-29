@@ -10,6 +10,7 @@ As if one did this:
 
 import logging
 import os
+import re
 from typing import List
 
 from quizmake import parser
@@ -87,19 +88,143 @@ def main(argv: List[str]) -> int:
     for token in os.listdir(t_folder):
         logging.debug(f"Testing token {token}")
         if not parser.assert_token_file(t_folder + "/" + token):
-            logging.error(f"{token} is not a valid token. Skipping...")
+            raise Exception(f"{token} is not a valid token.")
+            # logging.error(f"{token} is not a valid token. Skipping...")
         else:
             logging.info(f"{token} is valid...")
+
+    logging.info(f"Tokens folder {t_folder} is valid. Parsing files now.")
+    try:
+        corpus = parser.Corpus(t_folder)
+    except Exception as e:
+        logging.critical(f"Could not parse tokens folder {t_folder}.")
+        logging.critical(f"Exception: {e}")
+        exit(1)
 
     questions_array = []
     for question in os.listdir(q_folder):
         logging.debug(f"Testing question {question}")
         parser.assert_question_file(q_folder + "/" + question)
         if not parser.assert_question_file(q_folder + "/" + question):
-            logging.error(f"{question} is not a valid question. Skipping...")
+            raise Exception(f"{question} is not a valid questiion.")
+            # logging.error(f"{question} is not a valid question. Skipping...")
         else:
             logging.info(f"{question} is valid...")
             temp = parser.Question(q_folder + "/" + question)
             questions_array.append(temp)
 
+    class bcolors:
+        HEADER = '\033[95m'
+        OKBLUE = '\033[94m'
+        OKGREEN = '\033[92m'
+        WARNING = '\033[93m'
+        FAIL = '\033[91m'
+        ENDC = '\033[0m'
+        BOLD = '\033[1m'
+        UNDERLINE = '\033[4m'
+
+    def print_question(question):
+        question_text = question.sections["question"][0]
+        answers = question.sections["answers"]
+        feedback = question.sections["feedback"]
+
+        print("="*50)
+        print(question_text + "\n")
+
+        option_number = 1
+        print("")
+        for i in range(len(answers)):
+            print(f"{option_number}. {answers[i]} ", end = "")
+            print(bcolors.OKGREEN + "(correct)" + bcolors.ENDC if i == 0 else "", end = "")
+            print(f"\n(Feedback: {feedback[i] if feedback[i].rstrip() else 'None'})")
+            option_number += 1
+            print()
+
+    identifier = re.compile(r'{([A-Za-z-_]+)([0-9]+)?}')
+    custom_call = re.compile(r'{CUSTOM\.([\w\_]+)}')
+
+    def process_line(corpus, line):
+        matches = identifier.findall(line)
+        for match in matches:
+            filename = match[0]
+            number = match[1] if match[1] else ''
+            original_text = '{' + filename + number + '}'
+            if corpus.exists(filename):
+                request = corpus.request(filename, int(number if number else 0))
+                line = line.replace(original_text, request, 1)
+        return line
+        
+
+    for question in questions_array:
+        sections = [
+            "question",
+            "answers",
+            "feedback",
+        ]
+        for section in sections:
+            for i in range(len(question.sections[section])):
+                question.sections[section][i] = process_line(corpus, question.sections[section][i])
+
+    def quick_clean(dirty_string):
+        return dirty_string\
+            .replace("\\n", "\\\\n")\
+            .replace("~", "\\~")\
+            .replace("=", "\\=")\
+            .replace("#", "\\#")\
+            .replace("{", "\\{")\
+            .replace("}", "\\}")\
+            .replace(":", "\\:")\
+            .replace("<", "&lt;")\
+            .replace(">", "&gt;")\
+            .replace("    ", "&nbsp;&nbsp;&nbsp;&nbsp;")\
+            .replace("\n", "<br>")
+
+    def output_gift(question_number, question, filename):
+        output = open(filename, "a")
+        text = question.sections["question"]
+        answers = question.sections["answers"]
+        feedbacks = question.sections["feedback"]
+        output.write(f'::Q{question_number}::[html]')
+        text_cleaned = quick_clean(text[0])
+        for i in range(len(answers)):
+            answers[i] = quick_clean(answers[i])
+            feedbacks[i] = quick_clean(feedbacks[i])
+        output.write(text_cleaned + "\n")
+        output.write('{ =')
+        for i in range(len(answers[:-1])):
+            output.write(answers[i])
+            output.write(' # ')
+            output.write(feedbacks[i])
+            output.write(' ~')
+        output.write(answers[- 1])
+        output.write(' # ' + feedbacks[-1])
+        output.write('}\n\n')
+
+    if args.export_gift:
+        logging.info(f"Exporting GIFT to {args.export_gift}!")
+        for i in range(len(questions_array)):
+            output_gift(i + 1, questions_array[i], args.export_gift)
+        logging.info("Done!")
+    else:
+        for question in questions_array:
+            print_question(question)
+
     return os.EX_OK
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
