@@ -11,10 +11,10 @@ pytest = "*"
 black = "*"
 pylint = "*"
 pytest-cov = "*"
-pyparsing = "*"
 
 [packages]
 quizmake = {path = "."}
+pyparsing = "*"
 
 [requires]
 python_version = "3.7"
