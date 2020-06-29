@@ -13,8 +13,11 @@ from pyparsing import (
     Literal,
     OneOrMore,
     ParserElement,
+    Optional,
     ParseResults,
     Regex,
+    restOfLine,
+    ZeroOrMore,
 )
 
 
@@ -32,6 +35,8 @@ Multiple choice question
 
 newline = Literal("\n")
 
+comment_line = Literal("//") + restOfLine + newline
+
 content_line = Regex("[^[].*") + newline.suppress()
 
 question_header = CaselessLiteral("[multiple_choice]") + newline.suppress()
@@ -44,7 +49,7 @@ feedback_header = CaselessLiteral("[feedback]") + newline.suppress()
 feedback_section = feedback_header + OneOrMore(content_line)
 
 multiple_choice_q = (
-    Group(question_section) + Group(answer_section) + Group(feedback_section)
+    ZeroOrMore(comment_line).suppress() + Group(question_section) + Group(answer_section) + Group(feedback_section)
 )
 
 """

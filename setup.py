@@ -14,12 +14,9 @@ with open("README.rst", "r") as fd:
 with open("LICENSE") as fd:
     license = fd.read()
 
-with open("VERSION") as fd:
-    version = fd.read().strip()
-
 setuptools.setup(
     name="quizmake",
-    version=version,
+    version="0.0.8.1",
     author="Jason Nguyen",
     author_email="jnguye21@uoguelph.ca",
     description="Question generator package for D2L and Moodle",

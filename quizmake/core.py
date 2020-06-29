@@ -102,6 +102,7 @@ def main(argv: List[str]) -> int:
         exit(1)
 
     questions_array = []
+    filenames_array = []
     for question in os.listdir(q_folder):
         logging.debug(f"Testing question {question}")
         parser.assert_question_file(q_folder + "/" + question)
@@ -112,6 +113,7 @@ def main(argv: List[str]) -> int:
             logging.info(f"{question} is valid...")
             temp = parser.Question(q_folder + "/" + question)
             questions_array.append(temp)
+            filenames_array.append(question)
 
     class bcolors:
         HEADER = '\033[95m'
@@ -123,12 +125,13 @@ def main(argv: List[str]) -> int:
         BOLD = '\033[1m'
         UNDERLINE = '\033[4m'
 
-    def print_question(question):
+    def print_question(filename, question):
         question_text = question.sections["question"][0]
         answers = question.sections["answers"]
         feedback = question.sections["feedback"]
 
         print("="*50)
+        print(f"{filename}: ", end = "")
         print(question_text + "\n")
 
         option_number = 1
@@ -156,6 +159,7 @@ def main(argv: List[str]) -> int:
         
 
     for question in questions_array:
+        corpus = parser.Corpus(t_folder) # TODO: proper corpus reset
         sections = [
             "question",
             "answers",
@@ -206,8 +210,10 @@ def main(argv: List[str]) -> int:
             output_gift(i + 1, questions_array[i], args.export_gift)
         logging.info("Done!")
     else:
+        counter = 0
         for question in questions_array:
-            print_question(question)
+            print_question(filenames_array[counter], question)
+            counter += 1
 
     return os.EX_OK
 

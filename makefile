@@ -135,7 +135,8 @@ push: prepush
 	@echo -e "\e[32mSuccess\e[0m"
 
 publish:
-	vim VERSION
+	vim setup.py
+	vim quizmake/__init__.py
 	sudo python3 setup.py sdist
 	sudo python3 setup.py bdist_wheel
 	twine check dist/*

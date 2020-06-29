@@ -9,8 +9,7 @@ __license__ = "MIT"
 __maintainer__ = "Jason Nguyen"
 __email__ = "jnguye21@uoguelph.ca"
 __status__ = "Planning"
-with open("VERSION", "r") as fd:
-    __version__ = fd.read().strip()
+__version__ = "0.0.8.1"
 
 # from .core import main
 # from .corpus import Corpus, corn

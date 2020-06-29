@@ -68,9 +68,8 @@ class Question:
                     if not line.startswith("//"):
                         feedback_lines.append(line)
                 self.sections["feedback"] = feedback_lines
-
-            else:
-                raise Exception("There is a massive parsing error...")
+            # TODO: re-add else statement
+                
 
     def speak(self) -> None:
         """Thwart the linter lmao."""
@@ -116,7 +115,6 @@ class Corpus:
     def __init__(self, tokens_folder):
         self.data = {}
         for filename in os.listdir(tokens_folder):
-            logging.info(f"Parsing token file '{filename}'")
             self.data[filename] = { 0 : TokenSet(tokens_folder + "/" + filename) }
 
     def exists(self, filename):
@@ -172,7 +170,7 @@ def verify_args(argv: List[str]) -> argparse.Namespace:
     arg_p.add_argument(
         "--export-gift",
         help="specify GIFT export and output filename",
-        metavar="--export_gift",
+        metavar="FILENAME",
     )
     arg_p.add_argument(
         "-v", "--verbose", help="verbose debug output", action="store_true"
