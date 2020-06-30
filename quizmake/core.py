@@ -28,7 +28,7 @@ def main(argv: List[str]) -> int:
     try:
         args = parser.verify_args(argv[1:])
     except ValueError:
-        return os.EX_USAGE
+        return 1
 
     # Set up logging
     logging.basicConfig(
@@ -56,13 +56,13 @@ def main(argv: List[str]) -> int:
     if not parser.assert_dir_has_files(t_folder):
         logging.error(f"{t_folder} either has no tokens or doesn't exist")
         logging.error("Exiting...")
-        return os.EX_USAGE
+        return 1
 
     logging.info(f'Checking path "{q_folder}" for questions')
     if not parser.assert_dir_has_files(q_folder):
         logging.error(f"{q_folder} either has no questions or doesn't exist")
         logging.error("Exiting...")
-        return os.EX_USAGE
+        return 1
 
     """
     This is going to be a relatively slow (but important) step where each and
@@ -215,7 +215,7 @@ def main(argv: List[str]) -> int:
             print_question(filenames_array[counter], question)
             counter += 1
 
-    return os.EX_OK
+    return 0
 
 
 
