@@ -1,0 +1,12 @@
+[matching]
+Match up each literal variable to its datatype.
+[left_match]
+{digit_non_zero1}{digit_non_zero2}
+{digit_non_zero3}.{digit_non_zero4}{digit_non_zero5}
+"{string1}"
+'{alpha1}'
+[right_match]
+int
+float or double
+char []
+char

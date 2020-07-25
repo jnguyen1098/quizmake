@@ -446,12 +446,16 @@ cases = [
     },
 """
 
-
-def test_question_creation() -> None:
+# TODO: move the bare questions in valid_questions/ to a dedicated mc folder
+# add replacement cases
+def test_mc_question_creation() -> None:
     """Assert the creation and return values of a Question."""
     for test_case in cases:
         question = parser.Question(str(test_case["filename"]))
+
         assert test_case["filename"] == question.filename
+        assert question.type == test_case["question_type"]
+        # Add case for checking number of feedback == number of answer
 
         sections = test_case["sections"]
         for key, value in sections.items():  # type: ignore

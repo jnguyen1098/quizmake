@@ -1,0 +1,7 @@
+[short_answer]
+What library would you import to use the printf() function?
+[answer]
+stdio.h
+#include <stdio.h>
+<stdio.h>
+stdio

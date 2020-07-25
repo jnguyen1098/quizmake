@@ -10,7 +10,7 @@ from quizmake import core
 
 
 def test_sanity() -> None:
-    """Test bad command line arguments."""
+    """Test for sanity."""
     args = [
         "prog",
         "tests/test_data/tokens/valid_tokens/",

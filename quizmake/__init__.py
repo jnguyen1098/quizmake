@@ -9,7 +9,7 @@ __license__ = "MIT"
 __maintainer__ = "Jason Nguyen"
 __email__ = "jnguye21@uoguelph.ca"
 __status__ = "Planning"
-__version__ = "0.0.8.2"
+__version__ = "0.0.8.3"
 
 # from .core import main
 # from .corpus import Corpus, corn

@@ -29,33 +29,41 @@ def parse_file(filename: str) -> ParseResults:
 # This makes sure nothing is whitespace
 ParserElement.setDefaultWhitespaceChars("")
 
-"""
-Multiple choice question
-"""
-
 newline = Literal("\n")
 
 comment_line = Literal("//") + restOfLine + newline
 
 content_line = Regex("[^[].*") + newline.suppress()
 
-question_header = CaselessLiteral("[multiple_choice]") + newline.suppress()
-question_section = question_header + OneOrMore(content_line)
+"""
+Multiple choice question
+"""
 
-answer_header = CaselessLiteral("[answer]") + newline.suppress()
-answer_section = answer_header + OneOrMore(content_line)
+mc_question_header = CaselessLiteral("[multiple_choice]") + newline.suppress()
+mc_question_section = mc_question_header + OneOrMore(content_line)
 
-feedback_header = CaselessLiteral("[feedback]") + newline.suppress()
-feedback_section = feedback_header + OneOrMore(content_line)
+mc_answer_header = CaselessLiteral("[answer]") + newline.suppress()
+mc_answer_section = mc_answer_header + OneOrMore(content_line)
+
+mc_feedback_header = CaselessLiteral("[feedback]") + newline.suppress()
+mc_feedback_section = mc_feedback_header + OneOrMore(content_line)
 
 multiple_choice_q = (
-    ZeroOrMore(comment_line).suppress() + Group(question_section) + Group(answer_section) + Group(feedback_section)
+    ZeroOrMore(comment_line).suppress() + Group(mc_question_section) + Group(mc_answer_section) + Group(mc_feedback_section)
 )
 
 """
 Short answer question
 """
-short_answer_q = Literal("Not implemented")
+sa_question_header = CaselessLiteral("[short_answer]") + newline.suppress()
+sa_question_section = sa_question_header + OneOrMore(content_line)
+
+sa_answer_header = CaselessLiteral("[answer]") + newline.suppress()
+sa_answer_section = sa_answer_header + OneOrMore(content_line)
+
+short_answer_q = (
+    ZeroOrMore(comment_line).suppress() + Group(sa_question_section) + Group(sa_answer_section)
+)
 
 """
 True-False question
@@ -65,7 +73,21 @@ true_false_q = Literal("Not implemented")
 """
 Matching question
 """
-matching_q = Literal("Not implemented")
+m_question_header = CaselessLiteral("[matching]") + newline.suppress()
+m_question_section = m_question_header + OneOrMore(content_line)
+
+m_left_answer = CaselessLiteral("[left_match]") + newline.suppress()
+m_left_section = m_left_answer + OneOrMore(content_line)
+
+m_right_answer = CaselessLiteral("[right_match]") + newline.suppress()
+m_right_section = m_right_answer + OneOrMore(content_line)
+
+matching_q = (
+    ZeroOrMore(comment_line).suppress()
+    + Group(m_question_section)
+    + Group(m_left_section)
+    + Group(m_right_section)
+)
 
 """
 Numerical question

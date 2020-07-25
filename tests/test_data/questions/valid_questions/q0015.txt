@@ -1,0 +1,12 @@
+[matching]
+Match up the function with its originating library.
+[left_match]
+printf()
+malloc()
+strcpy()
+assert()
+[right_match]
+stdio.h
+stdlib.h
+string.h
+assert.h

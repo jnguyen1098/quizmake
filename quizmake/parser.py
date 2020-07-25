@@ -43,12 +43,33 @@ class Question:
         """Create a question using the filename."""
         self.sections = {}
         self.filename = filename
-        self.parsed = grammar.parse_file(filename)
+
+        # TODO: make this pretty
+        try:
+            self.parsed = grammar.parse_file(filename)
+        except IsADirectoryError:
+            pass
 
         for section in self.parsed:
 
             if section[0].casefold() == "[multiple_choice]".casefold():
                 self.type = QuestionType.MULTIPLE_CHOICE
+                question_lines: List[str] = []
+                for line in section[1:]:
+                    if not line.startswith("//"):
+                        question_lines.append(line)
+                self.sections["question"] = ["\n".join(question_lines)]
+
+            elif section[0].casefold() == "[short_answer]".casefold():
+                self.type = QuestionType.SHORT_ANSWER
+                question_lines: List[str] = []
+                for line in section[1:]:
+                    if not line.startswith("//"):
+                        question_lines.append(line)
+                self.sections["question"] = ["\n".join(question_lines)]
+
+            elif section[0].casefold() == "[matching]".casefold():
+                self.type = QuestionType.MATCHING
                 question_lines: List[str] = []
                 for line in section[1:]:
                     if not line.startswith("//"):
@@ -68,12 +89,26 @@ class Question:
                     if not line.startswith("//"):
                         feedback_lines.append(line)
                 self.sections["feedback"] = feedback_lines
+
+            elif section[0].casefold() == "[left_match]".casefold():
+                answer_lines: List[str] = []
+                for line in section[1:]:
+                    if not line.startswith("//"):
+                        answer_lines.append(line)
+                self.sections["left_match"] = answer_lines
+
+            elif section[0].casefold() == "[right_match]".casefold():
+                answer_lines: List[str] = []
+                for line in section[1:]:
+                    if not line.startswith("//"):
+                        answer_lines.append(line)
+                self.sections["right_match"] = answer_lines
             # TODO: re-add else statement
                 
 
-    def speak(self) -> None:
-        """Thwart the linter lmao."""
-        print(self.sections)
+    def generate(self) -> str:
+        """Generate the substituted question.."""
+        return "LOL"
 
     def speaker(self) -> None:
         """Thwart the linter again."""
@@ -252,6 +287,6 @@ def assert_question_file(filename: str) -> bool:
         # Question(filename)
         list(grammar.parse_file(filename))
         return True
-    except ParseException as exception:
+    except (ParseException, IsADirectoryError) as exception:
         logging.debug(f"Question file exception: {exception}")
         return False

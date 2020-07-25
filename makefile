@@ -119,7 +119,7 @@ piptest:
 	pipenv --rm
 	@echo -e "\e[32mSuccess\e[0m"
 
-prepush: lint
+prepush:
 	pytest --cov=quizmake --cov-report term-missing --cov-report xml -x \
             $(TESTDIR)/smoke_tests/ $(TESTDIR)/end_to_end_tests \
             $(TESTDIR)/regression_tests/ $(TESTDIR)/integration_tests/ \

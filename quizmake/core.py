@@ -54,9 +54,11 @@ def main(argv: List[str]) -> int:
 
     logging.info(f'Checking path "{t_folder}" for tokens')
     if not parser.assert_dir_has_files(t_folder):
-        logging.error(f"{t_folder} either has no tokens or doesn't exist")
+        logging.error(f"{t_folder} either has no tokens or doesn't exist...skipping")
+        """
         logging.error("Exiting...")
         return 1
+        """
 
     logging.info(f'Checking path "{q_folder}" for questions')
     if not parser.assert_dir_has_files(q_folder):
@@ -72,19 +74,9 @@ def main(argv: List[str]) -> int:
     merely line-by-line.
 
     For questions, on the other hand... :grimace:
-
-    TODO: in this part of the project, I haven't thought of the top-down
-          result of parsing tokens and questions. I just want to parse.
-
-          In the original project, I had a 'DataSet' object that basically
-          represented each file in the tokens folder. Then, I had a 'Corpus'
-          object that held a dictionary of 'DataSet' objects and a top-level
-          interface was made from that. I might do the same, but less messy.
-
-          The original implementation used a very weird index system.
     """
 
-    # PLANNED: integrate validation and creation into one step
+    # TODO: integrate validation and creation into one step
     for token in os.listdir(t_folder):
         logging.debug(f"Testing token {token}")
         if not parser.assert_token_file(t_folder + "/" + token):
@@ -107,8 +99,9 @@ def main(argv: List[str]) -> int:
         logging.debug(f"Testing question {question}")
         parser.assert_question_file(q_folder + "/" + question)
         if not parser.assert_question_file(q_folder + "/" + question):
-            raise Exception(f"{question} is not a valid questiion.")
-            # logging.error(f"{question} is not a valid question. Skipping...")
+            # TODO: disambiguate between invalid questions and skipped folders
+            # raise Exception(f"{question} is not a valid questiion.")
+            logging.error(f"{question} is not a valid question. Skipping...")
         else:
             logging.info(f"{question} is valid...")
             temp = parser.Question(q_folder + "/" + question)
@@ -125,23 +118,56 @@ def main(argv: List[str]) -> int:
         BOLD = '\033[1m'
         UNDERLINE = '\033[4m'
 
+    # TODO: proper disambiguation between question types
     def print_question(filename, question):
-        question_text = question.sections["question"][0]
-        answers = question.sections["answers"]
-        feedback = question.sections["feedback"]
+        if question.type == parser.QuestionType.MULTIPLE_CHOICE:
+            question_text = question.sections["question"][0]
+            answers = question.sections["answers"]
+            feedback = question.sections["feedback"]
 
-        print("="*50)
-        print(f"{filename}: ", end = "")
-        print(question_text + "\n")
+            print("="*50)
+            print(f"{filename}: ", end = "")
+            print(question_text + "\n")
 
-        option_number = 1
-        print("")
-        for i in range(len(answers)):
-            print(f"{option_number}. {answers[i]} ", end = "")
-            print(bcolors.OKGREEN + "(correct)" + bcolors.ENDC if i == 0 else "", end = "")
-            print(f"\n(Feedback: {feedback[i] if feedback[i].rstrip() else 'None'})")
-            option_number += 1
-            print()
+            option_number = 1
+            print("")
+            for i in range(len(answers)):
+                print(f"{option_number}. {answers[i]} ", end = "")
+                print(bcolors.OKGREEN + "(correct)" + bcolors.ENDC if i == 0 else "", end = "")
+                print(f"\n(Feedback: {feedback[i] if feedback[i].rstrip() else 'None'})")
+                option_number += 1
+                print()
+
+        elif question.type == parser.QuestionType.SHORT_ANSWER:
+            question_text = question.sections["question"][0]
+            answers = question.sections["answers"]
+
+            print("="*50)
+            print(f"{filename}: ", end = "")
+            print(question_text)
+
+            print("")
+            for i in range(len(answers)):
+                print(f"Answer: {answers[i]} ", end = "")
+                print()
+
+        elif question.type == parser.QuestionType.MATCHING:
+            question_text = question.sections["question"][0]
+            left_match = question.sections["left_match"]
+            right_match = question.sections["right_match"]
+
+            print("="*50)
+            print(f"{filename}: ", end = "")
+            print(question_text + "\n")
+
+            if len(left_match) is not len(right_match):
+                raise Exception("Number of matching lefts must match right;"
+                " also, all question files must end with a blank line")
+
+            for i in range(len(left_match)):
+                print(f"{left_match[i]} -> {right_match[i]}")
+
+
 
     identifier = re.compile(r'{([A-Za-z-_]+)([0-9]+)?}')
     custom_call = re.compile(r'{CUSTOM\.([\w\_]+)}')
@@ -160,11 +186,23 @@ def main(argv: List[str]) -> int:
 
     for question in questions_array:
         corpus = parser.Corpus(t_folder) # TODO: proper corpus reset
-        sections = [
-            "question",
-            "answers",
-            "feedback",
-        ]
+        if question.type == parser.QuestionType.MULTIPLE_CHOICE:
+            sections = [
+                "question",
+                "answers",
+                "feedback",
+            ]
+        elif question.type == parser.QuestionType.SHORT_ANSWER:
+            sections = [
+                "question",
+                "answers",
+            ]
+        elif question.type == parser.QuestionType.MATCHING:
+            sections = [
+                "question",
+                "left_match",
+                "right_match",
+            ]
         for section in sections:
             for i in range(len(question.sections[section])):
                 question.sections[section][i] = process_line(corpus, question.sections[section][i])
@@ -183,7 +221,7 @@ def main(argv: List[str]) -> int:
             .replace("    ", "&nbsp;&nbsp;&nbsp;&nbsp;")\
             .replace("\n", "<br>")
 
-    def output_gift(question_number, question, filename):
+    def output_gift_mc(question_number, question, filename):
         output = open(filename, "a")
         text = question.sections["question"]
         answers = question.sections["answers"]
@@ -204,10 +242,67 @@ def main(argv: List[str]) -> int:
         output.write(' # ' + feedbacks[-1])
         output.write('}\n\n')
 
+    # TODO: after the exhaustive test harness is done,
+    #       support multi line answers
+    # TODO: do weights
+    # TODO: do feedbacks
+    def output_gift_sa(question_number, question, filename):
+        output = open(filename, "a")
+        text = question.sections["question"]
+        answers = question.sections["answers"]
+        output.write(f'::Q{question_number}::[html]')
+        text_cleaned = quick_clean(text[0])
+        for i in range(len(answers)):
+            # TODO investigate the short answer formatting
+            answers[i] = answers[i].replace("#", "\\#").replace("=", "\\=")
+        output.write(text_cleaned + "\n")
+        output.write('{ ')
+        for i in range(len(answers[:-1])):
+            output.write('=%100%')
+            output.write(answers[i])
+            output.write("\n")
+        output.write("=")
+        output.write(answers[-1])
+        output.write('}\n\n')
+
+    # TODO: feedback count checking (make sure it matches)
+    #       along with checking equality for left_ and right_match
+    def output_gift_m(question_number, question, filename):
+        output = open(filename, "a")
+        text = question.sections["question"]
+        left_match = question.sections["left_match"]
+        right_match = question.sections["right_match"]
+        output.write(f'::Q{question_number}::[html]')
+        text_cleaned = quick_clean(text[0])
+        for i in range(len(left_match)):
+            # TODO: investigate the matching answers formatting
+            left_match[i] = left_match[i].replace("#", "\\#").replace("=", "\\=")
+            right_match[i] = right_match[i].replace("#", "\\#").replace("=", "\\=")
+        output.write(text_cleaned + "\n")
+        output.write('{ ')
+        for i in range(len(left_match[:-1])):
+            output.write("=")
+            output.write(left_match[i])
+            output.write(" -> ")
+            output.write(right_match[i])
+            output.write("\n")
+        output.write("=")
+        output.write(left_match[-1])
+        output.write(" -> ")
+        output.write(right_match[-1])
+        output.write('}\n\n')
+
     if args.export_gift:
         logging.info(f"Exporting GIFT to {args.export_gift}!")
         for i in range(len(questions_array)):
-            output_gift(i + 1, questions_array[i], args.export_gift)
+            if questions_array[i].type == parser.QuestionType.MULTIPLE_CHOICE:
+                output_gift_mc(i + 1, questions_array[i], args.export_gift)
+            elif questions_array[i].type == parser.QuestionType.SHORT_ANSWER:
+                output_gift_sa(i + 1, questions_array[i], args.export_gift)
+            elif questions_array[i].type == parser.QuestionType.MATCHING:
+                output_gift_m(i + 1, questions_array[i], args.export_gift)
+            else:
+                raise Exception("Different question type than expected")
         logging.info("Done!")
     else:
         counter = 0
