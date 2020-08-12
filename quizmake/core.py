@@ -79,6 +79,9 @@ def main(argv: List[str]) -> int:
     # TODO: integrate validation and creation into one step
     for token in os.listdir(t_folder):
         logging.debug(f"Testing token {token}")
+        if token.startswith("."):
+            logging.debug(f"{token} is a hidden file. Skipping")
+            continue
         if not parser.assert_token_file(t_folder + "/" + token):
             raise Exception(f"{token} is not a valid token.")
             # logging.error(f"{token} is not a valid token. Skipping...")
@@ -97,11 +100,14 @@ def main(argv: List[str]) -> int:
     filenames_array = []
     for question in os.listdir(q_folder):
         logging.debug(f"Testing question {question}")
+        if question.startswith("."):
+            logging.debug(f"{question} is a hidden file. Skipping.")
+            continue
         parser.assert_question_file(q_folder + "/" + question)
         if not parser.assert_question_file(q_folder + "/" + question):
             # TODO: disambiguate between invalid questions and skipped folders
-            # raise Exception(f"{question} is not a valid questiion.")
-            logging.error(f"{question} is not a valid question. Skipping...")
+            raise Exception(f"{question} is not a valid questiion.")
+            # logging.error(f"{question} is not a valid question. Skipping...")
         else:
             logging.info(f"{question} is valid...")
             temp = parser.Question(q_folder + "/" + question)
