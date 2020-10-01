@@ -11,7 +11,8 @@ Questions are randomized from token files that are called dynamically by the use
 
 The user scripts the questions using a simple three-part file format to be covered later.
 
-TODO: add image lmao
+.. image:: https://i.imgur.com/tdXNN9w.png
+  :alt: Image
 
 https://github.com/alvations/Quotables
 
