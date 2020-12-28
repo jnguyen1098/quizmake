@@ -34,8 +34,6 @@ PyPi: https://pypi.org/project/quizmake/
 
 Github: https://github.com/jnguyen1098
 
-Contact: jnguye21@uoguelph.ca
-
 License: MIT License
 
 Header

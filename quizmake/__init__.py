@@ -2,14 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """Initiate the file."""
-__author__ = "Jason Nguyen"
-__copyright__ = "Copyright 2020, Jason Nguyen"
-__credits__ = ["Jason Nguyen"]
+__author__ = "jnguyen1098"
+__copyright__ = "Copyright 2020, jnguyen1098"
+__credits__ = ["jnguyen1098"]
 __license__ = "MIT"
-__maintainer__ = "Jason Nguyen"
-__email__ = "jnguye21@uoguelph.ca"
+__maintainer__ = "jnguyen1098"
 __status__ = "Planning"
-__version__ = "0.1.1"
+__version__ = "0.1.5"
 
 # from .core import main
 # from .corpus import Corpus, corn
