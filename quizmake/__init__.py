@@ -8,7 +8,7 @@ __credits__ = ["jnguyen1098"]
 __license__ = "MIT"
 __maintainer__ = "jnguyen1098"
 __status__ = "Planning"
-__version__ = "0.1.5"
+__version__ = "0.1.6"
 
 # from .core import main
 # from .corpus import Corpus, corn

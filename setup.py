@@ -16,7 +16,7 @@ with open("LICENSE") as fd:
 
 setuptools.setup(
     name="quizmake",
-    version="0.1.5",
+    version="0.1.6",
     author="jnguyen1098",
     description="Question generator package for Moodle",
     install_requires=["wheel", "pyparsing"],
