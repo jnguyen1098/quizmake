@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-TESTDIR = tests/
+TESTDIR = tests
 
 .PHONY: all install test uninstall lint clean piptest prepush push publish
 
